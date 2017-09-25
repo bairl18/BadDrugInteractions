@@ -8,14 +8,14 @@ import android.widget.*;
 public class MainActivity extends AppCompatActivity {
 
     static Boolean programOpens = false;
-    static String text = " ";
+    String text = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        programOpens = true;
+        openProgramTest();
 
         final TextView medField = (TextView)findViewById(R.id.textView);
 
@@ -24,10 +24,23 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                text = "Your Medication";
+                text = getMedName();
                 medField.setText(text);
             }
         });
+
+    }
+
+    public static String getMedName()
+    {
+        String name = "Your Medication";
+        return name;
+    }
+
+    public static Boolean openProgramTest()
+    {
+        programOpens = true;
+        return programOpens;
     }
 
 }
