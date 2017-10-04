@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import android.util.Log;
+
 public class MainActivity extends AppCompatActivity {
 
     static Boolean programOpens = false;
@@ -28,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
                 medField.setText(text);
             }
         });
+
+        Log.d("DBHandler: ", "Creating...");
+
+        DBHandler db = new DBHandler(this);
 
     }
 

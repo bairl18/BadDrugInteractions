@@ -7,34 +7,51 @@ package com.example.linnea.baddruginteractions2;
 public class Drug {
 
     private int id;
-    private String name;
-    private String address;
+    private String appl_no;
+    private String product_no;
+    private String form;
+    private String reference_drug;
+    private String drug_name;
+    private String active_ingredient;
+    private String reference_standard;
+
     public Drug()
     {
+
     }
-    public Drug(int id,String name,String address)
+    public Drug(int id, String appl_no, String product_no, String form, String reference_drug,
+                String drug_name, String active_ingredient, String reference_standard)
     {
-        this.id=id;
-        this.name=name;
-        this.address=address;
+        this.id = id;
+        this.appl_no = appl_no;
+        this.product_no = product_no;
+        this.form = form;
+        this.reference_drug = reference_drug;
+        this.drug_name = drug_name;
+        this.active_ingredient = active_ingredient;
+        this.reference_standard = reference_standard;
     }
+
     public void setId(int id) {
         this.id = id;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setAppl_no(String appl_no) { this.appl_no = appl_no; }
+    public void setProduct_no(String product_no) { this.product_no = product_no; }
+    public void setForm(String form) { this.form = form; }
+    public void setReferenec_drug(String reference_drug) { this.reference_drug = reference_drug; }
+    public void setDrug_name(String drug_name) { this.drug_name = drug_name; }
+    public void setActive_ingredient(String active_ingredient) { this.active_ingredient = active_ingredient; }
+    public void setReference_standard(String reference_standard) { this.reference_standard = reference_standard; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
     public int getId() {
         return id;
     }
-    public String getAddress() {
-        return address;
-    }
-    public String getName() {
-        return name;
-    }
+    public String getAppl_no() { return appl_no; }
+    public String getProduct_no() { return product_no; }
+    public String getForm() { return form; }
+    public String getReference_drug() { return reference_drug; }
+    public String getDrug_name() { return drug_name; }
+    public String getActive_ingredient() { return active_ingredient; }
+    public String getReference_standard() { return reference_standard; }
+
 }
