@@ -38,9 +38,10 @@ public class DBHandler extends SQLiteOpenHelper{
     // Edit here- add column names    http://mobilesiri.com/android-sqlite-database-tutorial-using-android-studio/
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_DRUGS + "("
-        + KEY_ID + "INTEGER PRIMARY KEY," + KEY_NAME + "TEXT" + "TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        String CREATE_FDA_TABLE = "CREATE TABLE " + TABLE_DRUGS + "("
+        + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_APPL_NO + " TEXT, " + KEY_PRODUCT_NUM + " TEXT, " + KEY_FORM + " TEXT, "
+        + KEY_REFERENCE + " TEXT, " + KEY_NAME + " TEXT, " + KEY_INGREDIENT + " TEXT, " + KEY_STANDARD + " TEXT" + ")";
+        db.execSQL(CREATE_FDA_TABLE);
     }
 
     @Override
