@@ -4,8 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 
 import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,5 +57,11 @@ public class MainActivity extends AppCompatActivity {
         programOpens = true;
         return programOpens;
     }
+
+    public static void parseFdaDatabase()
+    {
+        SQLiteDatabase drugs;
+    }
+
 
 }
