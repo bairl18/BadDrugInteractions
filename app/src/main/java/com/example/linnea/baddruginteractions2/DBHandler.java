@@ -28,6 +28,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_APPL_NO = "appl_no";
     private static final String KEY_PRODUCT_NO = "product_no";
     private static final String KEY_FORM = "form";
+    private static final String KEY_STRENGTH = "strength";
     private static final String KEY_REFERENCE = "reference_drug";
     private static final String KEY_NAME = "drug_name";
     private static final String KEY_INGREDIENT = "active_ingredient";
@@ -40,8 +41,9 @@ public class DBHandler extends SQLiteOpenHelper {
     // Edit here- add column names    http://mobilesiri.com/android-sqlite-database-tutorial-using-android-studio/
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String CREATE_FDA_TABLE = "CREATE TABLE " + TABLE_DRUGS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_APPL_NO + " TEXT, " + KEY_PRODUCT_NO + " TEXT, " + KEY_FORM + " TEXT, "
+                + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_APPL_NO + " TEXT, " + KEY_PRODUCT_NO + " TEXT, " + KEY_FORM + " TEXT, " + KEY_STRENGTH + " TEXT, "
                 + KEY_REFERENCE + " TEXT, " + KEY_NAME + " TEXT, " + KEY_INGREDIENT + " TEXT, " + KEY_STANDARD + " TEXT" + ")";
         db.execSQL(CREATE_FDA_TABLE);
     }
@@ -49,8 +51,18 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_DRUGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
         // Creating tables again
+        onCreate(db);
+    }
+
+    public void resetDB() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
+
         onCreate(db);
     }
 
@@ -58,8 +70,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addDrug(Drug drug) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, drug.getDrug_name()); // Drug Name
-        values.put(KEY_APPL_NO, drug.getAppl_no()); // Drug Appl No
+
+        values.put(KEY_ID, drug.getId());
+        values.put(KEY_APPL_NO, drug.getAppl_no());
+        values.put(KEY_PRODUCT_NO, drug.getProduct_no());
+        values.put(KEY_FORM, drug.getForm());
+        values.put(KEY_STRENGTH, drug.getStrength());
+        values.put(KEY_REFERENCE, drug.getReference_drug());
+        values.put(KEY_NAME, drug.getDrug_name());
+        values.put(KEY_INGREDIENT, drug.getActive_ingredient());
+        values.put(KEY_STANDARD, drug.getReference_standard());
 
         // Inserting Row
         db.insert(TABLE_DRUGS, null, values);
@@ -79,13 +99,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public Drug getDrug(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_DRUGS, new String[]{KEY_ID, KEY_NAME, KEY_APPL_NO}, KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query( TABLE_DRUGS,
+                new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
+                KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null) cursor.moveToFirst();
 
-        Drug contact = new Drug();
+        Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
         // return shop
-        return contact;
+        return drug;
     }
 }
