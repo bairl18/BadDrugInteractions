@@ -1,5 +1,6 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,11 +21,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     static Boolean programOpens = false;
     private String text = " ";
     private DBHandler db;
+
+    // Button Definitions
+    public ImageButton meds;
+    public ImageButton search;
+    public ImageButton settings;
+    public ImageButton reminders;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
         openProgramTest();
 
-        final TextView medField = (TextView)findViewById(R.id.textView);
+        // Buttons
+        meds = (ImageButton)findViewById(R.id.medsButton);
+        search = (ImageButton)findViewById(R.id.searchButton);
+        settings = (ImageButton)findViewById(R.id.settingsButton);
+        reminders = (ImageButton)findViewById(R.id.remindersButton);
 
-        final Button search = (Button)findViewById(R.id.button);
-
-        search.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                text = getMedInfo(10);
-                medField.setText(text);
-            }
-        });
+        // Button onClickListeners
+        meds.setOnClickListener(this);
+        search.setOnClickListener(this);
+        settings.setOnClickListener(this);
+        reminders.setOnClickListener(this);
 
         Log.d("DBHandler: ", "Opening DB");
         db = new DBHandler(this);
@@ -58,7 +66,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String getMedInfo(int index)
+
+    //onClick method corresponds to onClickListeners: contains instructions
+    //for implementing what happens when each button is clicked
+    @Override
+    public void onClick(View view)
+    {
+        String viewStr = view.toString();
+        switch(viewStr)
+        {
+            case "meds":
+                Intent intent = new Intent(MainActivity.this, MedicationsActivity.class);
+                startActivity(intent);
+                break;
+            case "search":
+                intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+                break;
+            case "settings":
+                //intent = new Intent(MainActivity.this, SettingsActivity.class);
+                //startActivity(intent);
+                break;
+            case "reminders":
+                //intent = new Intent(MainActivity.this, RemindersActivity.class);
+                //startActivity(intent);
+                break;
+        }
+    }
+
+
+        public String getMedInfo(int index)
     {
         String info = "No Medication Found";
         Drug drug = db.getDrug(index);

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Bad Drug Interactions 2</string>
+    <string name="title_activity_medications">MedicationsActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>
