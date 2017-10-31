@@ -53,17 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         reminders.setOnClickListener(this);
 
-        Log.d("DBHandler: ", "Opening DB");
-        db = new DBHandler(this);
+        //Log.d("DBHandler: ", "Opening DB");
+        //db = new DBHandler(this);
 
         // false if setting up new DB. Change to true if you don't want to wait on startup.
-        boolean fastStart = false;
+        //boolean fastStart = false;
 
-        if (!fastStart) {
-            db.resetDB();
-            parseFdaDatabase();
-        }
-
+        ///if (!fastStart) {
+            //db.resetDB();
+            //parseFdaDatabase();
+        //}
     }
 
 
@@ -72,25 +71,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
-        String viewStr = view.toString();
-        switch(viewStr)
+        //String viewStr = view.toString();
+        switch(view.getId())
         {
-            case "meds":
+            case R.id.medsButton:
                 Intent intent = new Intent(MainActivity.this, MedicationsActivity.class);
                 startActivity(intent);
                 break;
-            case "search":
+            case R.id.searchButton:
                 intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
                 break;
-            case "settings":
+            case R.id.settingsButton:
                 //intent = new Intent(MainActivity.this, SettingsActivity.class);
                 //startActivity(intent);
                 break;
-            case "reminders":
+            case R.id.remindersButton:
                 //intent = new Intent(MainActivity.this, RemindersActivity.class);
                 //startActivity(intent);
                 break;
+            default:
+                //do nothing
         }
     }
 
