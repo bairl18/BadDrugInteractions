@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Boolean programOpens = false;
     private String text = " ";
     private DBHandler db;
+    private UserProfileHandler profile;
 
     // Button Definitions
     public ImageButton meds;
@@ -53,16 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         reminders.setOnClickListener(this);
 
-        //Log.d("DBHandler: ", "Opening DB");
-        //db = new DBHandler(this);
+        Log.d("DBHandler: ", "Opening DB");
+        db = new DBHandler(this);
+        profile = new UserProfileHandler(this);
 
-        // false if setting up new DB. Change to true if you don't want to wait on startup.
-        //boolean fastStart = false;
+        // set to true if you want to reset db next time app opens
+        boolean resetDB = false;
+        if (resetDB) {
+            db.reset();
+        }
 
-        ///if (!fastStart) {
-            //db.resetDB();
-            //parseFdaDatabase();
-        //}
+        if (db.countRows() == 0) {
+            parseFdaDatabase();
+        }
     }
 
 
@@ -95,11 +99,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-        public String getMedInfo(int index)
+    // Demonstration code for sprint 1
+    public String getMedInfo(int index)
     {
         String info = "No Medication Found";
-        Drug drug = db.getDrug(index);
+        Drug drug = db.searchDrug(index);
         info = "Drug Name: " + drug.getDrug_name()
                 + "\nActive Ingredient: " + drug.getActive_ingredient()
                 + "\nForm: " + drug.getForm()
@@ -122,9 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String csvSplitBy = "\t";
 
         try {
-
             br = new BufferedReader( new InputStreamReader( getAssets().open(csvFile) ) );
-
             int keyIndex = 1;
 
             // skip top line
@@ -134,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // use comma as separator
                 String[] data = line.split(csvSplitBy);
-
                 String entry[] = new String[8];
                 for (int i = 0; i < entry.length; i++) {
                     entry[i] = "N/A";
