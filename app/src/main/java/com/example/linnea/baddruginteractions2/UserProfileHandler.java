@@ -14,16 +14,16 @@ import static android.provider.Contacts.SettingsColumns.KEY;
  * Created by bairl18 on 9/29/2017.
  */
 
-public class DBHandler extends SQLiteOpenHelper {
+public class UserProfileHandler extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "fdaDrugs";
+    private static final String DATABASE_NAME = "userDrugs";
 
     // Contacts table name
-    private static final String TABLE_DRUGS = "drugs";
+    private static final String TABLE_DRUGS = "user_drugs";
 
     // Drugs Table Columns names
     private static final String KEY_ID = "id";
@@ -36,7 +36,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_INGREDIENT = "active_ingredient";
     private static final String KEY_STANDARD = "reference_standard";
 
-    public DBHandler(Context context) {
+    public UserProfileHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -69,7 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Add a drug
-    public void addDrug(Drug drug) {
+    public void addDrug(UserDrug drug) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -90,7 +90,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Delete a drug
-    public void deleteDrug(Drug drug) {
+    public void deleteDrug(UserDrug drug) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DRUGS, KEY_ID + " = ?",
                 new String[]{String.valueOf(drug.getId())});
@@ -98,7 +98,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Get one drug
-    public Drug searchDrug(int id) {
+    public UserDrug searchDrug(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query( TABLE_DRUGS,
@@ -107,7 +107,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         if (cursor != null) cursor.moveToFirst();
 
-        Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+        UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
                 cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
         cursor.close();
@@ -116,19 +116,46 @@ public class DBHandler extends SQLiteOpenHelper {
         return drug;
     }
 
-    public ArrayList<Drug> searchDrugByName(String name) {
+    public ArrayList<UserDrug> asArrayList() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor  cursor = db.rawQuery("select * from table",null);
+
+        ArrayList<UserDrug> drugs = new ArrayList<UserDrug>();
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            do {
+                UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+
+                drugs.add(drug);
+                cursor.moveToNext();
+
+            } while (!cursor.isAfterLast());
+
+            cursor.close();
+
+        }
+
+        return drugs;
+
+    }
+
+    public ArrayList<UserDrug> searchDrugByName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query( TABLE_DRUGS,
                 new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
                 KEY_NAME + "=?", new String[]{name}, null, null, null, null);
 
-        ArrayList<Drug> drugs = new ArrayList<>();
+        ArrayList<UserDrug> drugs = new ArrayList<>();
 
         if (cursor != null) {
             cursor.moveToFirst();
             do {
-                Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
                         cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
                 drugs.add(drug);
@@ -143,19 +170,19 @@ public class DBHandler extends SQLiteOpenHelper {
         return drugs;
     }
 
-    public ArrayList<Drug> searchDrugByIngredient(String ingredient) {
+    public ArrayList<UserDrug> searchDrugByIngredient(String ingredient) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query( TABLE_DRUGS,
                 new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
                 KEY_INGREDIENT + "=?", new String[]{ingredient}, null, null, null, null);
 
-        ArrayList<Drug> drugs = new ArrayList<>();
+        ArrayList<UserDrug> drugs = new ArrayList<>();
 
         if (cursor != null) {
             cursor.moveToFirst();
             do {
-                Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
                         cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
                 drugs.add(drug);
@@ -180,6 +207,5 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return count;
     }
-
 
 }
