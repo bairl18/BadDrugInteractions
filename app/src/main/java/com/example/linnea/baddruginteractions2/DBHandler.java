@@ -38,7 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Edit here- add column names    http://mobilesiri.com/android-sqlite-database-tutorial-using-android-studio/
+    // http://mobilesiri.com/android-sqlite-database-tutorial-using-android-studio/
     @Override
     public void onCreate(SQLiteDatabase db) {
 

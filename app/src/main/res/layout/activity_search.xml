@@ -6,28 +6,75 @@
     android:layout_height="match_parent"
     tools:context="com.example.linnea.baddruginteractions2.SearchActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/content_search"
+        android:id="@+id/include" />
 
-    <include layout="@layout/content_search" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_marginTop="100dp">
+
+        <ListView
+            android:id="@+id/userMedsList"
+            android:layout_width="match_parent"
+            android:layout_height="325dp"
+            android:layout_column="0"
+            android:layout_margin="40dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_row="1"
+            android:layout_weight="1"
+            android:background="#acacac"
+            android:cacheColorHint="#43bc9d"
+            android:dividerHeight="16dp"
+            android:fastScrollAlwaysVisible="true"
+            android:scrollbarSize="40dp"
+            android:scrollbarStyle="insideOverlay"
+            android:smoothScrollbar="true"
+            android:textAlignment="center"
+            android:verticalScrollbarPosition="right"
+            app:layout_column="1"
+            app:layout_row="1" />
+    </FrameLayout>
+
+    <GridLayout
+        android:id="@+id/fdaMedsList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        app:columnCount="2"
+        app:rowCount="2">
+
+        <TextView
+            android:id="@+id/searchField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="60dp"
+            android:editable="true"
+            android:text="Medication"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_margin="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_row="0"
+            android:text="search "
+            android:textSize="18sp"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+    </GridLayout>
 
 </android.support.design.widget.CoordinatorLayout>
