@@ -12,18 +12,46 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static java.sql.Types.NULL;
+
 public class SearchActivity extends AppCompatActivity {
+
+    DBHandler db = new DBHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        final TextView searchField = (TextView) findViewById(R.id.searchField);
+        searchField.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String search = searchField.getText().toString();
+
+                if (search.equals(NULL))
+                {
+                    //toast that says enter a valid medication
+                    String message = "Please enter a valid medication.";
+                    Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                   //query
+                }
+            }
+        });
+
         populateMedsList();
         registerClickCallback();
     }
 
-    private void populateMedsList() {
+
+
+    private void populateMedsList()
+    {
         // Create list of meds
         Drug[] fdaMeds = {};
 

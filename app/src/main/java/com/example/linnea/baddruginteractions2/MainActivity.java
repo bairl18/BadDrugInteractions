@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 keyIndex++;
 
-
-
             }
 
         } catch (FileNotFoundException e) {
