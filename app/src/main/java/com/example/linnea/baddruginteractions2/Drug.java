@@ -34,17 +34,21 @@ public class Drug {
         this.reference_standard = reference_standard;
     }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setAppl_no(String appl_no) { this.appl_no = appl_no; }
     public void setProduct_no(String product_no) { this.product_no = product_no; }
     public void setForm(String form) { this.form = form; }
     public void setStrength(String strength) { this.strength = strength; }
-    public void setReference_drug(String reference_drug) { this.reference_drug = reference_drug; }
+    public void setReferenec_drug(String reference_drug) { this.reference_drug = reference_drug; }
     public void setDrug_name(String drug_name) { this.drug_name = drug_name; }
     public void setActive_ingredient(String active_ingredient) { this.active_ingredient = active_ingredient; }
     public void setReference_standard(String reference_standard) { this.reference_standard = reference_standard; }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
     public String getAppl_no() { return appl_no; }
     public String getProduct_no() { return product_no; }
     public String getForm() { return form; }

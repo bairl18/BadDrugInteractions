@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.*;
-
 import static android.provider.Contacts.SettingsColumns.KEY;
 
 /**
@@ -58,7 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void reset() {
+    public void resetDB() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -98,7 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Get one drug
-    public Drug searchDrug(int id) {
+    public Drug getDrug(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query( TABLE_DRUGS,
@@ -113,64 +111,4 @@ public class DBHandler extends SQLiteOpenHelper {
         // return shop
         return drug;
     }
-
-    public ArrayList<Drug> searchDrugByName(String name) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query( TABLE_DRUGS,
-                new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
-                KEY_NAME + "=?", new String[]{name}, null, null, null, null);
-
-        ArrayList<Drug> drugs = new ArrayList<>();
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            do {
-                Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-
-                drugs.add(drug);
-                cursor.moveToNext();
-
-            } while (!cursor.isAfterLast());
-
-        }
-
-        return drugs;
-    }
-
-    public ArrayList<Drug> searchDrugByIngredient(String ingredient) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query( TABLE_DRUGS,
-                new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
-                KEY_INGREDIENT + "=?", new String[]{ingredient}, null, null, null, null);
-
-        ArrayList<Drug> drugs = new ArrayList<>();
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            do {
-                Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-
-                drugs.add(drug);
-                cursor.moveToNext();
-
-            } while (!cursor.isAfterLast());
-
-        }
-
-        return drugs;
-    }
-
-    public int countRows() {
-        String query = "SELECT count(*) FROM " + TABLE_DRUGS;
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        return count;
-    }
-
-
 }
