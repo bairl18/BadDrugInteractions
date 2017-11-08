@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,74 +7,56 @@
     tools:context="com.example.linnea.baddruginteractions2.SearchActivity">
 
 
-
     <include layout="@layout/content_search"
         android:id="@+id/include" />
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp">
+        android:layout_height="467dp"
+        android:layout_below="@+id/linearLayout">
 
         <ListView
-            android:id="@+id/userMedsList"
+            android:id="@+id/fdaMedsList"
             android:layout_width="match_parent"
-            android:layout_height="325dp"
-            android:layout_column="0"
-            android:layout_margin="40dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_row="1"
-            android:layout_weight="1"
-            android:background="#acacac"
-            android:cacheColorHint="#43bc9d"
-            android:dividerHeight="16dp"
-            android:fastScrollAlwaysVisible="true"
-            android:scrollbarSize="40dp"
-            android:scrollbarStyle="insideOverlay"
-            android:smoothScrollbar="true"
-            android:textAlignment="center"
-            android:verticalScrollbarPosition="right"
-            app:layout_column="1"
-            app:layout_row="1" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="30dp"
+            android:background="#d5d5d5"
+            android:textAlignment="center">
+
+        </ListView>
     </FrameLayout>
 
-    <GridLayout
-        android:id="@+id/fdaMedsList"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        app:columnCount="2"
-        app:rowCount="2">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <TextView
+        <EditText
             android:id="@+id/searchField"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="60dp"
-            android:editable="true"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
             android:text="Medication"
             android:textAlignment="center"
-            android:textSize="22sp"
-            app:layout_column="0"
-            app:layout_row="0" />
+            android:textColor="#898989"
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/search"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_margin="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_row="0"
-            android:text="search "
+            android:layout_marginTop="40dp"
+            android:layout_toRightOf="@+id/searchField"
+            android:layout_weight="2"
+            android:text="search"
             android:textSize="18sp"
             app:layout_column="1"
             app:layout_row="0" />
 
-    </GridLayout>
+    </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.widget.RelativeLayout>

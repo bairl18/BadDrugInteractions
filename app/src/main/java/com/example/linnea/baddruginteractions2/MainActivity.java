@@ -87,15 +87,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.settingsButton:
-                //intent = new Intent(MainActivity.this, SettingsActivity.class);
-                //startActivity(intent);
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.remindersButton:
-                //intent = new Intent(MainActivity.this, RemindersActivity.class);
-                //startActivity(intent);
+                intent = new Intent(MainActivity.this, RemindersActivity.class);
+                startActivity(intent);
                 break;
             default:
-                //do nothing
+                // Do nothing
         }
     }
 
