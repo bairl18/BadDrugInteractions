@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,8 @@ import static java.sql.Types.NULL;
 public class SearchActivity extends AppCompatActivity {
 
     DBHandler db = new DBHandler(this);
+    UserProfileHandler up = new UserProfileHandler(this);
+    UserDrug selectedDrug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,22 @@ public class SearchActivity extends AppCompatActivity {
 
         populateMedsList();
         registerClickCallback();
+
+        ImageButton add = (ImageButton)findViewById(R.id.addButton);
+        add.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                if(selectedDrug != null)
+                {
+                    up.addDrug(selectedDrug);
+                }
+
+            }
+        });
+
     }
 
 
@@ -71,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
-                Drug selectedDrug = (Drug)fdaMedsList.getItemAtPosition(position);
+                 selectedDrug = (UserDrug)fdaMedsList.getItemAtPosition(position);
 
                 TextView textView = (TextView) viewClicked;
                 String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();

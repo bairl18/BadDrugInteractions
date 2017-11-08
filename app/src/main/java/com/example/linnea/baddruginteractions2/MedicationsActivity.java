@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,22 +18,28 @@ import static android.R.id.list;
 public class MedicationsActivity extends AppCompatActivity
 {
 
+    UserProfileHandler up = new UserProfileHandler(this);
+    UserDrug selectedDrug;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medications);
 
+        ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
 
-        /*
-        fab.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                //if() its in up
+                //{
+                    up.deleteDrug(selectedDrug);
+                //}
             }
         });
-        */
+
         populateMedsList();
         registerClickCallback();
     }
@@ -51,12 +58,14 @@ public class MedicationsActivity extends AppCompatActivity
 
     private void registerClickCallback()
     {
-        ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
+        final ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
         userMedsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
+
+                selectedDrug = (UserDrug)userMedsList.getItemAtPosition(position);
 
                 TextView textView = (TextView) viewClicked;
                 String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
