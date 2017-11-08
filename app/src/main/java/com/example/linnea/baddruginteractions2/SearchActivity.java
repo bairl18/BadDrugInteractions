@@ -65,12 +65,14 @@ public class SearchActivity extends AppCompatActivity {
 
     private void registerClickCallback()
     {
-        ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
+        final ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
         fdaMedsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
+                Drug selectedDrug = (Drug)fdaMedsList.getItemAtPosition(position);
+
                 TextView textView = (TextView) viewClicked;
                 String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
                 Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();

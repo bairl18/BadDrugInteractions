@@ -57,6 +57,7 @@ public class MedicationsActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
+
                 TextView textView = (TextView) viewClicked;
                 String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
                 Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
