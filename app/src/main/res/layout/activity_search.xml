@@ -12,7 +12,7 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="467dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout">
 
         <ListView

@@ -1,79 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical"
     tools:context="com.example.linnea.baddruginteractions2.MedicationsActivity">
 
-    <GridLayout
+    <FrameLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rowCount="2">
+        android:layout_weight="0">
 
         <TextView
             android:id="@+id/myMeds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="0dp"
             android:text="My Medications"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textColorLink="#43bc9d"
-            android:textSize="18sp"
-            app:layout_column="1"
-            app:layout_row="0" />
+            android:textSize="20sp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="11">
 
         <ListView
             android:id="@+id/userMedsList"
             android:layout_width="match_parent"
-            android:layout_height="325dp"
-            android:layout_column="0"
-            android:layout_margin="40dp"
-            android:layout_marginBottom="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="30dp"
             android:layout_marginTop="0dp"
-            android:layout_row="1"
-            android:layout_weight="1"
-            android:background="#acacac"
-            android:cacheColorHint="#43bc9d"
-            android:dividerHeight="16dp"
-            android:fastScrollAlwaysVisible="true"
-            android:scrollbarSize="40dp"
-            android:scrollbarStyle="insideOverlay"
-            android:smoothScrollbar="true"
-            android:textAlignment="center"
-            android:verticalScrollbarPosition="right"
-            app:layout_column="1"
-            app:layout_row="1" />
+            android:background="#d5d5d5"
+            android:textAlignment="center">
 
-    </GridLayout>
+        </ListView>
+    </FrameLayout>
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+        android:orientation="horizontal"
+        android:layout_weight="0"
+        android:weightSum="3">
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-20dp"
-            android:layout_marginTop="60dp"
+            android:layout_margin="20dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="2"
+            android:paddingTop="15dp"
             android:text="Add Medication"
+            android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_column="1"
-            app:layout_row="1" />
+            android:textSize="18sp" />
 
-    </GridLayout>
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+    </LinearLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</android.widget.LinearLayout>
