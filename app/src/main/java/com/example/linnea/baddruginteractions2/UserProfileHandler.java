@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.*;
 
@@ -73,6 +74,9 @@ public class UserProfileHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        Log.d("UserDrug", "id: " + drug.getId());
+        Log.d("UserDrug", "name: " + drug.getDrug_name());
+
         values.put(KEY_ID, drug.getId());
         values.put(KEY_APPL_NO, drug.getAppl_no());
         values.put(KEY_PRODUCT_NO, drug.getProduct_no());
@@ -110,8 +114,11 @@ public class UserProfileHandler extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
 
-            drug = new UserDrug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                    cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+            if (cursor.getCount() != 0) {
+                drug = new UserDrug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+
+            }
 
             cursor.close();
 
@@ -120,32 +127,6 @@ public class UserProfileHandler extends SQLiteOpenHelper {
         return drug;
     }
 
-    public ArrayList<UserDrug> asArrayList() {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor  cursor = db.rawQuery("select * from table",null);
-
-        ArrayList<UserDrug> drugs = new ArrayList<UserDrug>();
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            do {
-                UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-
-                drugs.add(drug);
-                cursor.moveToNext();
-
-            } while (!cursor.isAfterLast());
-
-            cursor.close();
-
-        }
-
-        return drugs;
-
-    }
 
     public ArrayList<UserDrug> searchDrugByName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -210,6 +191,29 @@ public class UserProfileHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return count;
+    }
+
+    public List<UserDrug> asList(){
+        List <UserDrug> drugList = new ArrayList<UserDrug>();
+        String userQuery = "SELECT * FROM " + TABLE_DRUGS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(userQuery, null);
+        if (cursor.moveToFirst()){
+            do{
+                UserDrug drug = new UserDrug();
+                drug.setId(cursor.getInt(0));
+                drug.setAppl_no(cursor.getString(1));
+                drug.setProduct_no(cursor.getString(2));
+                drug.setForm(cursor.getString(3));
+                drug.setStrength(cursor.getString(4));
+                drug.setReference_drug(cursor.getString(5));
+                drug.setDrug_name(cursor.getString(6));
+                drug.setActive_ingredient(cursor.getString(7));
+                drug.setReference_standard(cursor.getString(8));
+                drugList.add(drug);
+            } while(cursor.moveToNext());
+        }
+        return drugList;
     }
 
 }

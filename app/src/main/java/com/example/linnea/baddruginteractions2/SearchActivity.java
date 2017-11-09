@@ -22,7 +22,9 @@ public class SearchActivity extends AppCompatActivity {
 
     DBHandler db = new DBHandler(this);
     UserProfileHandler up = new UserProfileHandler(this);
-    UserDrug selectedDrug;
+    int selected = -1;
+
+    List<Drug> drugList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
                 else
                 {
                     populateMedsList(searchText);
+                    selected = -1;
                 }
             }
         });
@@ -61,9 +64,23 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View view)
             {
 
-                if(selectedDrug != null)
+                if(selected >= 0)
                 {
-                    up.addDrug(selectedDrug);
+
+                    UserDrug ud = new UserDrug(drugList.get(selected));
+                    String message = "Drug saved";
+
+                    if (up.searchDrug(ud.getId()) == null)
+                    {
+
+                        up.addDrug(ud);
+                    }
+                    else
+                    {
+                        message = "Drug already saved";
+                    }
+
+                    Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -71,16 +88,16 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
-
+    
     private void populateMedsList(String searchText)
     {
-        List<Drug> drugList = db.getDrugList(searchText);
+        drugList = db.getDrugList(searchText);
         // Create list of meds
         if(!drugList.isEmpty()) {
             String[] drugNames = new String[drugList.size()];
             for (int i = 0; i < drugList.size(); i++) {
                 drugNames[i] = drugList.get(i).getDrug_name();
+
             }
 
             // Build adapter
@@ -100,10 +117,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
-                 selectedDrug = (UserDrug)fdaMedsList.getItemAtPosition(position);
+                selected = position;
 
                 TextView textView = (TextView) viewClicked;
-                String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
+                String message = "You clicked #" + position + ", which is string: " + textView.getText().toString();
                 Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
