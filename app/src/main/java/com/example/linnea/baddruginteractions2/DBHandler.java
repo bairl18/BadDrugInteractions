@@ -187,5 +187,26 @@ public class DBHandler extends SQLiteOpenHelper {
         return count;
     }
 
+    public List<Drug> getDrugList(String searchText){
+        List <Drug> drugList = new ArrayList<Drug>();
+        String userQuery = "SELECT * FROM " + TABLE_DRUGS + " WHERE drug_name LIKE '%" + searchText + "%' group by drug_name";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(userQuery, null);
+        if (cursor.moveToFirst()){
+            do{
+                Drug drug = new Drug();
+                drug.setAppl_no(cursor.getString(1));
+                drug.setProduct_no(cursor.getString(2));
+                drug.setForm(cursor.getString(3));
+                drug.setStrength(cursor.getString(4));
+                drug.setReference_drug(cursor.getString(5));
+                drug.setDrug_name(cursor.getString(6));
+                drug.setActive_ingredient(cursor.getString(7));
+                drug.setReference_standard(cursor.getString(8));
+                drugList.add(drug);
+            } while(cursor.moveToNext());
+        }
+        return drugList;
+    }
 
 }
