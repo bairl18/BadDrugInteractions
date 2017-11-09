@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             db.reset();
         }
 
-        boolean resetProfile = true;
+        boolean resetProfile = false;
         if (resetProfile) {
             profile.reset();
         }

@@ -88,7 +88,6 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    
     private void populateMedsList(String searchText)
     {
         drugList = db.getDrugList(searchText);
