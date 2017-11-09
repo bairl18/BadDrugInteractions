@@ -1,5 +1,6 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.R.attr.color;
 import static android.R.id.list;
 
 public class MedicationsActivity extends AppCompatActivity
@@ -68,6 +70,7 @@ public class MedicationsActivity extends AppCompatActivity
                 selectedDrug = (UserDrug)userMedsList.getItemAtPosition(position);
 
                 TextView textView = (TextView) viewClicked;
+                textView.setBackgroundColor(Color.CYAN);
                 String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
                 Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
             }
