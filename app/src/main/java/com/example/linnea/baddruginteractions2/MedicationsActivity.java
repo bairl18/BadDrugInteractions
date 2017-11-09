@@ -33,10 +33,10 @@ public class MedicationsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                //if() its in up
-                //{
+                if (up.searchDrug(selectedDrug.getId()) == null);
+                {
                     up.deleteDrug(selectedDrug);
-                //}
+                }
             }
         });
 
