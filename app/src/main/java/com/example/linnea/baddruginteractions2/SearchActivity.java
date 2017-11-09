@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import static java.sql.Types.NULL;
 
 public class SearchActivity extends AppCompatActivity {
@@ -27,15 +29,17 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        final ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
+        final Button search = (Button) findViewById(R.id.search);
         final TextView searchField = (TextView) findViewById(R.id.searchField);
-        searchField.setOnClickListener(new View.OnClickListener()
+        search.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String search = searchField.getText().toString();
+                String searchText = searchField.getText().toString();
 
-                if (search.equals(NULL))
+                if (searchText.equals(NULL))
                 {
                     //toast that says enter a valid medication
                     String message = "Please enter a valid medication.";
@@ -43,12 +47,11 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 else
                 {
-                   //query
+                    populateMedsList(searchText);
                 }
             }
         });
 
-        populateMedsList();
         registerClickCallback();
 
         ImageButton add = (ImageButton)findViewById(R.id.addButton);
@@ -70,17 +73,23 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-    private void populateMedsList()
+    private void populateMedsList(String searchText)
     {
+        List<Drug> drugList = db.getDrugList(searchText);
         // Create list of meds
-        Drug[] fdaMeds = {};
+        if(!drugList.isEmpty()) {
+            String[] drugNames = new String[drugList.size()];
+            for (int i = 0; i < drugList.size(); i++) {
+                drugNames[i] = drugList.get(i).getDrug_name();
+            }
 
-        // Build adapter
-        ArrayAdapter<Drug> adapter = new ArrayAdapter<Drug>(this, R.layout.list_items_layout, fdaMeds);
+            // Build adapter
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugNames);
 
-        // Configure list view
-        ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
-        fdaMedsList.setAdapter(adapter);
+            // Configure list view
+            ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
+            fdaMedsList.setAdapter(adapter);
+        }
     }
 
     private void registerClickCallback()
