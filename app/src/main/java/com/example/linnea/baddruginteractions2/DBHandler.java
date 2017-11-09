@@ -99,18 +99,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Get one drug
     public Drug searchDrug(int id) {
+
+        Drug drug = null;
+
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query( TABLE_DRUGS,
                 new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
                 KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null) cursor.moveToFirst();
+        if (cursor != null) {
+            cursor.moveToFirst();
 
-        Drug drug = new Drug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+            drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                    cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
-        cursor.close();
+            cursor.close();
+
+        }
 
         // return shop
         return drug;

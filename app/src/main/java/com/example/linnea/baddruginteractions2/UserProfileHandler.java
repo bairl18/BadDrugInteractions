@@ -101,18 +101,22 @@ public class UserProfileHandler extends SQLiteOpenHelper {
     public UserDrug searchDrug(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
+        UserDrug drug = null;
+
         Cursor cursor = db.query( TABLE_DRUGS,
                 new String[] {KEY_ID, KEY_APPL_NO, KEY_PRODUCT_NO, KEY_FORM, KEY_STRENGTH, KEY_REFERENCE, KEY_NAME, KEY_INGREDIENT, KEY_STANDARD},
                 KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null) cursor.moveToFirst();
+        if (cursor != null) {
+            cursor.moveToFirst();
 
-        UserDrug drug = new UserDrug( Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+            drug = new UserDrug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                    cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
 
-        cursor.close();
+            cursor.close();
 
-        // return shop
+        }
+
         return drug;
     }
 

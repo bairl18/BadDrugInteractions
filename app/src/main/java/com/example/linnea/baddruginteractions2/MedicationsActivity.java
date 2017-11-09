@@ -33,7 +33,7 @@ public class MedicationsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                if (up.searchDrug(selectedDrug.getId()) == null);
+                if (up.searchDrug(selectedDrug.getId()) != null);
                 {
                     up.deleteDrug(selectedDrug);
                 }
