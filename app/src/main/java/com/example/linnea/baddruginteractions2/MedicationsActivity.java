@@ -31,6 +31,7 @@ public class MedicationsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medications);
 
+        final ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
         ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
 
         delete.setOnClickListener(new View.OnClickListener() {
@@ -39,10 +40,13 @@ public class MedicationsActivity extends AppCompatActivity
 
                 if (up.searchDrug(drugList.get(selected).getId()) != null);
                 {
-
+                    userMedsList.setSelector(android.R.color.transparent);
                     up.deleteDrug(drugList.get(selected));
 
                     populateMedsList();
+
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -82,10 +86,11 @@ public class MedicationsActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
 
+                userMedsList.setSelector(android.R.color.darker_gray);
                 selected = position;
 
                 TextView textView = (TextView) viewClicked;
-                String message = "You clicked #" + position + ", which is string: " + textView.getText().toString();
+                String message = "You clicked " + textView.getText().toString();
                 Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });

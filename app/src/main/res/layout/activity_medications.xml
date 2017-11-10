@@ -31,7 +31,7 @@
         android:id="@+id/frameLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="11">
+        android:layout_weight="9">
 
         <ListView
             android:id="@+id/userMedsList"
@@ -41,7 +41,8 @@
             android:layout_margin="30dp"
             android:layout_marginTop="0dp"
             android:background="#d5d5d5"
-            android:textAlignment="center">
+            android:textAlignment="center"
+            android:listSelector="@android:color/darker_gray">
 
         </ListView>
     </FrameLayout>
@@ -50,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="0"
+        android:layout_weight="1"
         android:weightSum="3">
 
         <TextView

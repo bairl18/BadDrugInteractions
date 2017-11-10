@@ -1,6 +1,9 @@
 package com.example.linnea.baddruginteractions2;
 
 import org.junit.Test;
+
+import static android.R.attr.id;
+import static com.example.linnea.baddruginteractions2.R.id.searchField;
 import static org.junit.Assert.*;
 
 /**
@@ -17,6 +20,9 @@ public class UnitTests {
 
     @Test
     public void search() {
-        //assertEquals(MainActivity.getMedName(), "Your Medication");
+        //final String med = "Tylenol";
     }
+
+
+
 }
