@@ -114,7 +114,7 @@ public class UserDrugUnitTests {
     @Test
     public void testAsDrug() {
         Drug drug = testDrug.asDrug();
-        assertNotNull(drug.getId());
+        assertEquals(drug.getId(), testDrug.getId());
         assertNotNull(drug.getForm());
         assertNotNull(drug.getDrug_name());
         assertNotNull(drug.getActive_ingredient());
