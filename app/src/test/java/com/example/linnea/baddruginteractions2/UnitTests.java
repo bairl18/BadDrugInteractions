@@ -1,5 +1,7 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.test.mock.MockApplication;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -8,7 +10,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class UnitTests {
+public class UnitTests extends MainActivity{
 
     @Test
     public void programOpens() {
@@ -16,8 +18,10 @@ public class UnitTests {
     }
 
     @Test
-    public void search() {
-        //final String med = "Tylenol";
+    public void search()
+    {
+
+
     }
 
 

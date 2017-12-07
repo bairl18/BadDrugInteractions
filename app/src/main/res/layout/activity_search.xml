@@ -2,6 +2,7 @@
 <android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayout0"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,11 +11,11 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_weight="0"
+        android:orientation="horizontal"
         android:weightSum="3">
 
         <EditText
@@ -27,8 +28,8 @@
             android:text="Medication"
             android:textAlignment="center"
             android:textColor="#898989"
-            android:textSize="22sp"
-            android:textCursorDrawable="@null"/>
+            android:textCursorDrawable="@null"
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/search"
@@ -47,8 +48,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2.5">
+        android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/fdaMedsList"
@@ -58,44 +58,15 @@
             android:layout_margin="30dp"
             android:background="#d5d5d5"
             android:cacheColorHint="#000000"
-            android:textAlignment="center"
-            android:listSelector="@android:color/darker_gray">
+            android:choiceMode="singleChoice"
+            android:listSelector="@android:color/darker_gray"
+            android:textAlignment="center">
 
         </ListView>
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:weightSum="3">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="2"
-            android:paddingTop="15dp"
-            android:text="Add Medication"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_add" />
-    </LinearLayout>
-
-    <include layout="@layout/content_search"
-        android:id="@+id/include" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_search" />
 
 </android.widget.LinearLayout>

@@ -5,11 +5,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +29,11 @@ public class MedicationsActivity extends AppCompatActivity
     UserProfileHandler up = new UserProfileHandler(this);
     int selected;
 
+    private LinearLayout linearLayout;
+    private PopupWindow popupWindow;
+    private LayoutInflater layoutInflater;
+    private ViewGroup container;
+
     List<UserDrug> drugList;
 
     @Override
@@ -32,24 +43,7 @@ public class MedicationsActivity extends AppCompatActivity
         setContentView(R.layout.activity_medications);
 
         final ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
-        ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (up.searchDrug(drugList.get(selected).getId()) != null);
-                {
-                    userMedsList.setSelector(android.R.color.transparent);
-                    up.deleteDrug(drugList.get(selected));
-
-                    populateMedsList();
-
-                    finish();
-                    startActivity(getIntent());
-                }
-            }
-        });
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
 
         populateMedsList();
         registerClickCallback();
@@ -83,15 +77,60 @@ public class MedicationsActivity extends AppCompatActivity
         userMedsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
+            public void onItemClick(AdapterView<?> paret, final View viewClicked, int position, long id)
             {
 
                 userMedsList.setSelector(android.R.color.darker_gray);
                 selected = position;
 
+                int [] locationOfClickedView = new int[2];
+                viewClicked.getLocationOnScreen(locationOfClickedView);
+                int x = locationOfClickedView[0];
+                int y = locationOfClickedView[1];
+
+                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                container = (ViewGroup) layoutInflater.inflate(R.layout.activity_delete_pop_up, null);
+
+                popupWindow = new PopupWindow(container, 500, 450, true);
+                popupWindow.setAnimationStyle(-1);
+                popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x+200, y);
+
+                ImageButton delete = (ImageButton) container.findViewById(R.id.delete);
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (up.searchDrug(drugList.get(selected).getId()) != null);
+                        {
+                            userMedsList.setSelector(android.R.color.transparent);
+                            up.deleteDrug(drugList.get(selected));
+                            popupWindow.dismiss();
+
+                            populateMedsList();
+
+                            if(selected == 0) //If only one med in the list
+                            {
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        }
+                    }
+                });
+
+                // Make window disappear after user touches another location on screen
+                container.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+
                 TextView textView = (TextView) viewClicked;
-                String message = "You clicked " + textView.getText().toString();
-                Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
+                //String message = "You clicked " + textView.getText().toString();
+                //Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
