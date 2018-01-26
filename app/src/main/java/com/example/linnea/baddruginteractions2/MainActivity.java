@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         reminders.setOnClickListener(this);
 
-        Log.d("DBHandler: ", "Opening DB");
+        Log.d("MainActivity", "Opening DB");
         db = new DBHandler(this);
         profile = new UserProfileHandler(this);
 
@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean resetDB = false;
         if (resetDB) {
             db.reset();
+        }
+
+        boolean resetProfile = false;
+        if (resetProfile) {
+            profile.reset();
         }
 
         if (db.countRows() == 0) {

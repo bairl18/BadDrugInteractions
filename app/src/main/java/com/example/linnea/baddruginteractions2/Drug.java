@@ -23,6 +23,7 @@ public class Drug {
     public Drug(int id, String appl_no, String product_no, String form, String strength, String reference_drug,
                 String drug_name, String active_ingredient, String reference_standard)
     {
+
         this.id = id;
         this.appl_no = appl_no;
         this.product_no = product_no;
