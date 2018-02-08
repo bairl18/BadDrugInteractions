@@ -22,8 +22,11 @@
 
         <ImageButton
             android:id="@+id/remindersButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:cropToPadding="false"
@@ -34,12 +37,16 @@
             app:layout_columnWeight="1"
             app:layout_row="1"
             app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/reminders" />
+            app:srcCompat="@drawable/reminders"
+            android:outlineProvider="bounds"
+            android:elevation="10dp"/>
 
         <ImageButton
             android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:cropToPadding="false"
@@ -50,30 +57,37 @@
             app:layout_columnWeight="1"
             app:layout_row="1"
             app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/settings" />
+            app:srcCompat="@drawable/settings"
+            android:outlineProvider="bounds"
+            android:elevation="10dp"/>
 
         <ImageButton
             android:id="@+id/medsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:background="@null"
+            android:background="@drawable/rounded_corners"
             android:cropToPadding="false"
+            android:elevation="10dp"
             android:onClick="onClick"
+            android:outlineProvider="bounds"
             android:padding="0dp"
             android:scaleType="centerCrop"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/meds"
+            app:srcCompat="@drawable/medications"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
         <ImageButton
             android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="0dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:cropToPadding="false"
@@ -84,7 +98,9 @@
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/search" />
+            app:srcCompat="@drawable/search"
+            android:outlineProvider="bounds"
+            android:elevation="10dp"/>
 
     </android.support.v7.widget.GridLayout>
 

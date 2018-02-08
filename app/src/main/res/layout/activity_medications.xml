@@ -42,6 +42,8 @@
             android:layout_margin="30dp"
             android:layout_marginTop="0dp"
             android:background="#d5d5d5"
+            android:divider="#ffffff"
+            android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"
             android:textAlignment="center">
 

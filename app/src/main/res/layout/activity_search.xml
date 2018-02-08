@@ -59,6 +59,8 @@
             android:background="#d5d5d5"
             android:cacheColorHint="#000000"
             android:choiceMode="singleChoice"
+            android:divider="#ffffff"
+            android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"
             android:textAlignment="center">
 
