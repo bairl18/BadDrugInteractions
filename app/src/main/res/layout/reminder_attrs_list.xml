@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="@layout/rounded_corners"
+    android:backgroundTint="#ffffff"
+    android:elevation="20dp"
+    android:orientation="vertical"
+    app:layout_gravity="center">
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/drugButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:capitalize="none"
+        android:drawableLeft="@drawable/bottle"
+        android:drawablePadding="20dp"
+        android:elevation="15dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="DRUG"
+        android:textAlignment="textStart"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/calendar"
+        android:drawablePadding="20dp"
+        android:drawableTint="#000000"
+        android:elevation="15dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Start Date"
+        android:textAlignment="textStart"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/timeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/clock"
+        android:drawablePadding="20dp"
+        android:drawableTint="@android:color/black"
+        android:elevation="15dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Time"
+        android:textAlignment="textStart"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/freqButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/repeat"
+        android:drawablePadding="20dp"
+        android:drawableTint="#000000"
+        android:elevation="15dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Frequency"
+        android:textAlignment="textStart"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="@layout/rounded_corners"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="save"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="@layout/rounded_corners"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@android:string/cancel"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
