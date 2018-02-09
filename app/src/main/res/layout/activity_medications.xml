@@ -22,9 +22,9 @@
             android:layout_marginTop="30dp"
             android:text="My Medications"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimaryDark"
             android:textColorLink="#43bc9d"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -41,7 +41,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="30dp"
             android:layout_marginTop="0dp"
-            android:background="#d5d5d5"
+            android:background="@color/colorPrimary"
             android:divider="#ffffff"
             android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"

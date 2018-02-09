@@ -28,6 +28,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:background="@null"
             android:cropToPadding="false"
             android:onClick="onClick"
@@ -48,6 +49,7 @@
             android:layout_margin="10dp"
             android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:background="@null"
             android:cropToPadding="false"
             android:onClick="onClick"
@@ -67,7 +69,8 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/rounded_corners"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:background="@layout/rounded_corners"
             android:cropToPadding="false"
             android:elevation="10dp"
             android:onClick="onClick"
@@ -91,16 +94,17 @@
             android:adjustViewBounds="true"
             android:background="@null"
             android:cropToPadding="false"
+            android:elevation="10dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:onClick="onClick"
+            android:outlineProvider="bounds"
             android:padding="0dp"
             android:scaleType="centerCrop"
             app:layout_column="1"
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            app:srcCompat="@drawable/search"
-            android:outlineProvider="bounds"
-            android:elevation="10dp"/>
+            app:srcCompat="@drawable/search" />
 
     </android.support.v7.widget.GridLayout>
 

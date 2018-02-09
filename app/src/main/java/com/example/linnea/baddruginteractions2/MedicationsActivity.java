@@ -54,21 +54,30 @@ public class MedicationsActivity extends AppCompatActivity
         drugList = up.asList();
         // Create list of meds
 
-        if(!drugList.isEmpty()) {
-            String[] drugInfo = new String[drugList.size()];
+        String[] drugInfo;
+
+        if(drugList.isEmpty()) // Is empty
+        {
+            drugInfo = new String[1];
+            drugInfo[0] = "You have no medications.";
+        }
+        else // Not empty
+        {
+            drugInfo = new String[drugList.size()];
             for (int i = 0; i < drugList.size(); i++) {
                 drugInfo[i] = drugList.get(i).getDrug_name() + " | "
                                 + drugList.get(i).getActive_ingredient() + " | "
                                 + drugList.get(i).getForm();
             }
-
-            // Build adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugInfo);
-
-            // Configure list view
-            ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
-            userMedsList.setAdapter(adapter);
         }
+
+        // Build adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugInfo);
+
+        // Configure list view
+        ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
+        userMedsList.setAdapter(adapter);
+
     }
 
     private void registerClickCallback()
@@ -80,10 +89,15 @@ public class MedicationsActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> paret, final View viewClicked, int position, long id)
             {
 
+            TextView textView = (TextView) viewClicked;
+            String textInView = textView.getText().toString();
+            if(!textInView.equals("You have no medications."))
+            {
+
                 userMedsList.setSelector(android.R.color.darker_gray);
                 selected = position;
 
-                int [] locationOfClickedView = new int[2];
+                int[] locationOfClickedView = new int[2];
                 viewClicked.getLocationOnScreen(locationOfClickedView);
                 int x = locationOfClickedView[0];
                 int y = locationOfClickedView[1];
@@ -93,14 +107,14 @@ public class MedicationsActivity extends AppCompatActivity
 
                 popupWindow = new PopupWindow(container, 500, 450, true);
                 popupWindow.setAnimationStyle(-1);
-                popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x+200, y);
+                popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x + 200, y);
 
                 ImageButton delete = (ImageButton) container.findViewById(R.id.delete);
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if (up.searchDrug(drugList.get(selected).getId()) != null);
+                        if (up.searchDrug(drugList.get(selected).getId()) != null) ;
                         {
                             userMedsList.setSelector(android.R.color.transparent);
                             up.deleteDrug(drugList.get(selected));
@@ -108,7 +122,7 @@ public class MedicationsActivity extends AppCompatActivity
 
                             populateMedsList();
 
-                            if(selected == 0) //If only one med in the list
+                            if (selected == 0) //If only one med in the list
                             {
                                 finish();
                                 startActivity(getIntent());
@@ -118,19 +132,18 @@ public class MedicationsActivity extends AppCompatActivity
                 });
 
                 // Make window disappear after user touches another location on screen
-                container.setOnTouchListener(new View.OnTouchListener()
-                {
+                container.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event)
-                    {
+                    public boolean onTouch(View v, MotionEvent event) {
                         popupWindow.dismiss();
                         return true;
                     }
                 });
 
-                TextView textView = (TextView) viewClicked;
                 //String message = "You clicked " + textView.getText().toString();
                 //Toast.makeText(MedicationsActivity.this, message, Toast.LENGTH_LONG).show();
+
+            }
             }
         });
     }
