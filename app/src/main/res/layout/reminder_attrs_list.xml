@@ -3,16 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="250dp"
     android:layout_height="wrap_content"
-    android:background="@layout/rounded_corners"
     android:backgroundTint="#ffffff"
     android:elevation="20dp"
+    android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
-    app:layout_gravity="center">
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:layout_weight="1" />
+    app:layout_gravity="center_vertical|center_horizontal">
 
     <Button
         android:id="@+id/drugButton"
@@ -21,13 +16,17 @@
         android:layout_gravity="start"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/colorPrimary"
         android:capitalize="none"
-        android:drawableLeft="@drawable/bottle"
+        android:drawableLeft="@drawable/bottle2"
         android:drawablePadding="20dp"
+        android:drawableTint="@color/colorPrimaryDark"
         android:elevation="15dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="DRUG"
         android:textAlignment="textStart"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
 
     <Button
@@ -37,13 +36,15 @@
         android:layout_gravity="start"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/colorPrimary"
         android:drawableLeft="@drawable/calendar"
         android:drawablePadding="20dp"
-        android:drawableTint="#000000"
+        android:drawableTint="@color/colorPrimaryDark"
         android:elevation="15dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Start Date"
         android:textAlignment="textStart"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
 
     <Button
@@ -53,13 +54,15 @@
         android:layout_gravity="start"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/colorPrimary"
         android:drawableLeft="@drawable/clock"
         android:drawablePadding="20dp"
-        android:drawableTint="@android:color/black"
+        android:drawableTint="@color/colorPrimaryDark"
         android:elevation="15dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Time"
         android:textAlignment="textStart"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
 
     <Button
@@ -69,37 +72,23 @@
         android:layout_gravity="start"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/colorPrimary"
         android:drawableLeft="@drawable/repeat"
         android:drawablePadding="20dp"
-        android:drawableTint="#000000"
+        android:drawableTint="@color/colorPrimaryDark"
         android:elevation="15dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Frequency"
         android:textAlignment="textStart"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="6dp"
         android:orientation="horizontal">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@layout/rounded_corners"
-            android:backgroundTint="@color/colorAccent"
-            android:elevation="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="save"
-            android:textSize="16sp" />
 
         <Space
             android:layout_width="wrap_content"
@@ -116,6 +105,25 @@
             android:elevation="20dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@android:string/cancel"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="@layout/rounded_corners"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="save"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
 
         <Space
@@ -124,10 +132,5 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:layout_weight="1" />
 
 </LinearLayout>

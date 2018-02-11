@@ -26,6 +26,10 @@ public class UserProfileHandler extends SQLiteOpenHelper {
     // Contacts table name
     private static final String TABLE_DRUGS = "user_drugs";
 
+    // Arraylist of reminders
+    // NOTE: NEED TO CHANGE THIS TO A DATABASE SO REMINDERS ARE SAVED EVEN AFTER THE APP IS CLOSED
+    private static final List<Reminder> remList = new ArrayList<Reminder>();
+
     // Drugs Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_APPL_NO = "appl_no";
@@ -49,6 +53,8 @@ public class UserProfileHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_APPL_NO + " TEXT, " + KEY_PRODUCT_NO + " TEXT, " + KEY_FORM + " TEXT, " + KEY_STRENGTH + " TEXT, "
                 + KEY_REFERENCE + " TEXT, " + KEY_NAME + " TEXT, " + KEY_INGREDIENT + " TEXT, " + KEY_STANDARD + " TEXT" + ")";
         db.execSQL(CREATE_FDA_TABLE);
+
+
     }
 
     @Override
@@ -215,5 +221,43 @@ public class UserProfileHandler extends SQLiteOpenHelper {
         }
         return drugList;
     }
+
+    public void addReminder(Reminder rem)
+    {
+        remList.add(rem);
+    }
+
+    public void deleteReminder(Reminder rem)
+    {
+        remList.remove(rem);
+    }
+
+    public List<Reminder> getRemList()
+    {
+        return remList;
+    }
+
+    public Reminder searchRem(String drugName)
+    {
+        Reminder returnRem = null;
+
+        // Loop through remList
+        for(int i = 0; i < remList.size(); i++)
+        {
+            String name = remList.get(i).getDrugName();
+
+            if(name.equals(drugName))
+            {
+                returnRem = remList.get(i);
+            }
+
+        }
+
+        return returnRem;
+
+    }
+
+
+
 
 }

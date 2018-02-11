@@ -48,7 +48,7 @@
         </ListView>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/add"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:layout_alignParentBottom="true"
