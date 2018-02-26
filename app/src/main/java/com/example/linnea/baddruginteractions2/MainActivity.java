@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String text = " ";
     private DBHandler db;
     private UserProfileHandler profile;
+    private UserRemindersHandler userReminders;
 
     // Button Definitions
     public ImageButton meds;
@@ -56,9 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         reminders.setOnClickListener(this);
 
+        // Create databases
         Log.d("MainActivity", "Opening DB");
         db = new DBHandler(this);
         profile = new UserProfileHandler(this);
+        userReminders = new UserRemindersHandler(this);
+
 
         // set to true if you want to reset db next time app opens
         boolean resetDB = false;

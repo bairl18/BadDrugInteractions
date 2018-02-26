@@ -34,6 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar"  />
         <activity android:name=".AddPopUpActivity" />
         <activity android:name=".DeletePopUpActivity" />
+        <receiver android:name=".AlertReceiver"/>
     </application>
 
 </manifest>

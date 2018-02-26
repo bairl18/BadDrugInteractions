@@ -1,8 +1,12 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,9 +28,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.text.DecimalFormat;
 
@@ -35,11 +37,15 @@ import static com.example.linnea.baddruginteractions2.R.layout.reminder_attrs_li
 
 public class RemindersActivity extends AppCompatActivity{
 
+    UserRemindersHandler ur = new UserRemindersHandler(this);
+
     UserProfileHandler up = new UserProfileHandler(this);
     List<UserDrug> drugList;
 
     int day, month, year, hour, minute;
-    String drug, frequency, minuteStr;
+    int hour24;
+    public static String drug;
+    String frequency, minuteStr, amPm;
 
     List<Reminder> remList;
 
@@ -54,11 +60,18 @@ public class RemindersActivity extends AppCompatActivity{
     private LayoutInflater layoutInflater;
     private ViewGroup container;
 
+    // Arraylist of pending intents that correspond to each reminder
+    PendingIntent intentArray[];
+    AlarmManager alarmManager;
+    Intent myIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminders);
+
+        intentArray = new PendingIntent[20];
 
         linearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
         final ListView remsListView = (ListView) findViewById(R.id.remsList);
@@ -178,7 +191,7 @@ public class RemindersActivity extends AppCompatActivity{
                                 month = i1+1;
                                 day = i2;
 
-                                startDateButton.setText(i1+1 + "." + i2 + "." + i);
+                                startDateButton.setText(i1+1 + "/" + i2 + "/" + i);
                             }
                         }, currentYear, currentMonth, currentDay);
 
@@ -204,29 +217,33 @@ public class RemindersActivity extends AppCompatActivity{
                             public void onTimeSet(TimePicker TimePicker, int i, int i1)
                             {
                                 hour = i;
+                                hour24 = i;
                                 minute = i1;
-
-                                String amPm;
 
                                 if(hour >= 12)
                                 {
                                     amPm = "PM";
-                                    i = i-12;
+
+                                    if(hour != 12)
+                                    {
+                                        hour = hour-12;
+                                    }
                                 }
                                 else
                                 {
-                                    amPm = "am";
+                                    amPm = "AM";
                                 }
 
                                 if(minute < 10)
                                 {
+                                    // Make minute times less than 10 still appear with two numbers
                                     DecimalFormat df = new DecimalFormat("00");
                                     minuteStr = df.format(i1);
-                                    timeButton.setText(i + ":" + minuteStr + " " + amPm);
+                                    timeButton.setText(hour + ":" + minuteStr + " " + amPm);
                                 }
                                 else
                                 {
-                                    timeButton.setText(i + ":" + i1 + " " + amPm);
+                                    timeButton.setText(hour + ":" + minute + " " + amPm);
                                 }
                             }
                         }, currentHour, currentMinute, false);
@@ -250,7 +267,6 @@ public class RemindersActivity extends AppCompatActivity{
                         if (drugList.isEmpty())
                         {
                             arrayAdapter.add("You have no medications");
-
                         }
                         else
                         {
@@ -319,9 +335,11 @@ public class RemindersActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View view)
                     {
-                        if(drug != null && day != 0 && month != 0 && year != 0 && hour != 0 && (minuteStr != null || minute != 0) && frequency != null)
+                        if(drug != null && day != 0 && month != 0 && year != 0 && hour != 0
+                                && (minuteStr != null || minute != 0) && amPm != null && frequency != null)
                         {
-                            addReminder(drug, day, month, year, hour, minute, frequency);
+                            addReminder(drug, day, month, year, hour, minute, amPm, frequency);
+                            setNotification();
                             remAttrsDialog.dismiss();
                             populateRemsList();
                         }
@@ -338,9 +356,11 @@ public class RemindersActivity extends AppCompatActivity{
     }
 
 
-    private void populateRemsList() {
+    // Put all reminders into the ListView
+    private void populateRemsList()
+    {
 
-        remList = up.getRemList();
+        remList = ur.asList();
         String[] remInfo;
 
         if(remList.isEmpty()) // Is empty
@@ -354,9 +374,9 @@ public class RemindersActivity extends AppCompatActivity{
             for (int i = 0; i < remList.size(); i++)
             {
                 remInfo[i] = remList.get(i).getDrugName() + "\n"  + remList.get(i).getStartMonth()
-                        + "." + remList.get(i).getStartDay() + "." + remList.get(i).getStartYear()
+                        + "/" + remList.get(i).getStartDay() + "/" + remList.get(i).getStartYear()
                         + "\n" + remList.get(i).getTimeHour() + ":" + remList.get(i).getTimeMinutes()
-                        + " | " + remList.get(i).getFrequency();
+                        + " " + remList.get(i).getAmPm() + ", " + remList.get(i).getFrequency();
             }
         }
 
@@ -368,19 +388,80 @@ public class RemindersActivity extends AppCompatActivity{
         remsListView.setAdapter(adapter);
     }
 
-    public void addReminder(String drug, int day, int month, int year, int timeHour, int timeMinutes, String frequency)
+    // Returns the current maximum reminder id
+    public int getNewId()
     {
-        Reminder rem = new Reminder(drug, day, month, year, timeHour, timeMinutes, frequency);
-        up.addReminder(rem);
+        int maxId = ur.getMaxId();
+        return maxId;
     }
 
+    // Creates a reminder object and adds it to the userRemindersHandler database
+    public void addReminder(String drug, int day, int month, int year, int timeHour, int timeMinutes, String amPm, String frequency)
+    {
+        // Find maximum id #, then set the new reminder's id # to the number after it.
+        int maxId = getNewId();
+        Reminder rem = new Reminder(maxId+1, drug, day, month, year, timeHour, timeMinutes, amPm, frequency);
+        ur.addRem(rem);
+    }
+
+    // Create a new notification at the time and date selected by the user
+    public void setNotification()
+    {
+        // Create alarm
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        myIntent = new Intent(RemindersActivity.this, AlertReceiver.class);
+
+        // Set the pending intent's request code to the id of the new reminder we've just created.
+        // This way, the reminder id corresponds to the notification request code.
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(RemindersActivity.this, getNewId(), myIntent, 0);
+
+        // Add pending intent to intent array at the index of the new id.
+        intentArray[getNewId()] = pendingIntent;
+
+        // Create an instance of the calendar and set its attributes to the time chosen by the user
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.HOUR_OF_DAY, hour24);
+
+        if(amPm.equals("AM"))
+        {
+            calendar.set(Calendar.AM_PM, Calendar.AM);
+        }
+        else if(amPm.equals("PM"))
+        {
+            calendar.set(Calendar.AM_PM, Calendar.PM);
+        }
+
+        // Set the alarm manager so it will show the notification at the time specified in our calendar instance
+        if(frequency.equals("once"))
+        {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+        if(frequency.equals("daily"))
+        {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY , pendingIntent);
+        }
+        else if(frequency.equals("weekly"))
+        {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY * 7 , pendingIntent);
+        }
+        else if(frequency.equals("monthly"))
+        {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY * 30 , pendingIntent);
+        }
+
+    }
+
+    // On Click method for the reminders ListView
     private void registerClickCallback()
     {
         final ListView remsList = (ListView) findViewById(R.id.remsList);
         remsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> paret, final View viewClicked, int position, long id)
+            public void onItemClick(AdapterView<?> paret, final View viewClicked, final int position, long id)
             {
 
                 TextView textView = (TextView) viewClicked;
@@ -397,9 +478,9 @@ public class RemindersActivity extends AppCompatActivity{
                     int y = locationOfClickedView[1];
 
                     layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    container = (ViewGroup) layoutInflater.inflate(R.layout.activity_delete_pop_up, null);
+                    container = (ViewGroup) layoutInflater.inflate(R.layout.activity_delete_edit_reminder, null);
 
-                    popupWindow = new PopupWindow(container, 500, 450, true);
+                    popupWindow = new PopupWindow(container, 500, 410, true);
                     popupWindow.setAnimationStyle(-1);
                     popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x + 200, y);
 
@@ -409,13 +490,26 @@ public class RemindersActivity extends AppCompatActivity{
                         public void onClick(View view) {
 
                             // Check if the reminder is in the rems list
-                            if (up.searchRem(remList.get(selected).getDrugName()) != null)
+                            if (ur.searchReminder(remList.get(selected).getId()) != null)
                             {
                                 // Delete the reminder
                                 remsList.setSelector(android.R.color.transparent);
-                                up.deleteReminder(remList.get(selected));
-                                popupWindow.dismiss();
+                                ur.deleteRem(remList.get(selected));
 
+                                // Delete the corresponding notification
+                                PendingIntent pIntent = intentArray[remList.get(selected).getId()];
+
+                                if(alarmManager != null)
+                                {
+                                    alarmManager.cancel(pIntent);
+                                }
+
+                                if(intentArray[remList.get(selected).getId()] != null)
+                                {
+                                    intentArray[remList.get(selected).getId()] = null;
+                                }
+
+                                popupWindow.dismiss();
                                 populateRemsList();
 
                                 if (selected == 0) //If only one rem in the list
@@ -432,6 +526,9 @@ public class RemindersActivity extends AppCompatActivity{
                     container.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
+
+                            //Change color of selected item back to normal?
+
                             popupWindow.dismiss();
                             return true;
                         }
