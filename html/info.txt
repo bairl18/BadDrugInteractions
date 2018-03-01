@@ -1,0 +1,7 @@
+This directory contains php scripts that are run by a remote web server hosted on AWS.
+The scripts won't successfully run without the information given by dbinfo.inc
+which is needed to establish a connection to the MySQL database 
+
+=======
+
+EC2 instance hostname: ec2-13-58-76-35.us-east-2.compute.amazonaws.com
