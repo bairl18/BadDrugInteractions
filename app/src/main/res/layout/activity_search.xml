@@ -54,13 +54,12 @@
         <ListView
             android:id="@+id/fdaMedsList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="30dp"
-            android:background="@color/colorPrimary"
-            android:cacheColorHint="#000000"
-            android:choiceMode="singleChoice"
-            android:divider="#ffffff"
+            android:background="@layout/rounded_corners_list_view"
+            android:backgroundTint="@color/colorPrimary"
+            android:divider="#f9f9f9"
             android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"
             android:textAlignment="center">

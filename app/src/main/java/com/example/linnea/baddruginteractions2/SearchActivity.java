@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static com.example.linnea.baddruginteractions2.R.color.colorPrimary;
+import static com.example.linnea.baddruginteractions2.R.color.colorPrimaryDark;
 import static java.sql.Types.NULL;
 
 public class SearchActivity extends AppCompatActivity {
@@ -39,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
 
     List<Drug> drugList;
 
+    ListView fdaMedsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +50,11 @@ public class SearchActivity extends AppCompatActivity {
 
         linearLayout = (LinearLayout) findViewById(R.id.linearlayout0);
 
-        final ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
+        fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
         final Button search = (Button) findViewById(R.id.search);
         final TextView searchField = (TextView) findViewById(R.id.searchField);
+
+        populateMedsList(" ");
 
         search.setOnClickListener(new View.OnClickListener()
         {
@@ -91,24 +97,22 @@ public class SearchActivity extends AppCompatActivity {
         drugList = db.getDrugList(searchText);
 
         // Create array of drug name strings
-        if(!drugList.isEmpty()) //If there are drugs in drugList
+        String[] drugNames = new String[drugList.size()]; // String array of drug names
+
+        // Add all FDA drug names to the array
+        for (int i = 0; i < drugList.size(); i++)
         {
-            String[] drugNames = new String[drugList.size()]; // String array of drug names
-
-            // Add all FDA drug names to the array
-            for (int i = 0; i < drugList.size(); i++)
-            {
-                drugNames[i] = drugList.get(i).getDrug_name();
-            }
-
-            // Build adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugNames);
-
-            // Configure list view
-            ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
-            fdaMedsList.setAdapter(adapter);
+            drugNames[i] = drugList.get(i).getDrug_name();
         }
-        else
+
+        // Build adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugNames);
+
+        // Configure list view
+        ListView fdaMedsList = (ListView) findViewById(R.id.fdaMedsList);
+        fdaMedsList.setAdapter(adapter);
+
+        if(drugList.isEmpty())
         {
             String message = "No Medications Found.";
             Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
@@ -126,7 +130,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> paret, View viewClicked, int position, long id)
             {
-                fdaMedsList.setSelector(android.R.color.darker_gray);
+                fdaMedsList.setSelector(android.R.color.darker_gray);;
                 selected = position;
 
                 int [] locationOfClickedView = new int[2];

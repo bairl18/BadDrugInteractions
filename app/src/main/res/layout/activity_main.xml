@@ -92,7 +92,7 @@
             android:layout_margin="10dp"
             android:layout_marginLeft="0dp"
             android:adjustViewBounds="true"
-            android:background="@null"
+            android:background="@drawable/search"
             android:cropToPadding="false"
             android:elevation="10dp"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -104,7 +104,7 @@
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            app:srcCompat="@drawable/search" />
+            app:srcCompat="@layout/rounded_corners" />
 
     </android.support.v7.widget.GridLayout>
 

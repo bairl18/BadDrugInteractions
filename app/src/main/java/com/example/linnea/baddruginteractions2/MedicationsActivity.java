@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import static android.R.id.list;
+import static com.example.linnea.baddruginteractions2.R.color.colorPrimaryDark;
 
 public class MedicationsActivity extends AppCompatActivity
 {
@@ -93,8 +94,7 @@ public class MedicationsActivity extends AppCompatActivity
             String textInView = textView.getText().toString();
             if(!textInView.equals("You have no medications."))
             {
-
-                userMedsList.setSelector(android.R.color.darker_gray);
+                userMedsList.setSelector(android.R.color.darker_gray);;
                 selected = position;
 
                 int[] locationOfClickedView = new int[2];

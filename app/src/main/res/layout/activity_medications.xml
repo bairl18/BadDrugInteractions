@@ -41,8 +41,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="30dp"
             android:layout_marginTop="0dp"
-            android:background="@color/colorPrimary"
-            android:divider="#ffffff"
+            android:background="@layout/rounded_corners_list_view"
+            android:backgroundTint="@color/colorPrimary"
+            android:divider="#f9f9f9"
             android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"
             android:textAlignment="center">
