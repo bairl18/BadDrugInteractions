@@ -3,8 +3,8 @@
 <body>
 <?php
 
-   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/synIdSearch.php?dn=[drug_name] */
-   $drug_name = $_GET["dn"];
+   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/getsevdesc.php?sevid=[int_id] */
+   $sev_id = $_GET["sevid"];
 
    /* Connect to MySQL and select the database. */
    $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
@@ -21,18 +21,16 @@
 <!-- Display table data. -->
 <table border="1" cellpadding="2" cellspacing="2">
    <tr>
-      <td>drug_synoym_id</td>
-      <td>drug_name</td>
+      <td>severity_desc</td>
    </tr>
 
 <?php
 
-   $result = mysqli_query($connection, "SELECT drug_synonym_id, drug_name  FROM multum_drug_name WHERE drug_name LIKE '" . $drug_name . "%'" );
+   $result = mysqli_query($connection, "SELECT severity_desc FROM multum_severity WHERE severity_id = " . $sev_id );
 
    while($query_data = mysqli_fetch_row($result)) {
       echo "<tr>";
-      echo "<td>", $query_data[0], "</td>",
-           "<td>", $query_data[1], "</td>";
+      echo "<td>", $query_data[0], "</td>";
       echo "</tr>";
    }
 ?>

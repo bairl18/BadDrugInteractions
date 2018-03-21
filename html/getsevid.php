@@ -3,11 +3,9 @@
 <body>
 <?php
 
-   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/test1.php?dn=[drug_name] */
-   $drug_name = $_GET["dn"];
-
-   /* convert all '+' in parameter back to spaces */
-   $drug_name = str_replace('+', ' ', $drug_name);
+   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/getsevid.php?id1=[drug_id_1]&id2=[drug_id_2] */
+   $drug_id_1 = $_GET["id1"];
+   $drug_id_2 = $_GET["id2"];
 
    /* Connect to MySQL and select the database. */
    $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
@@ -24,12 +22,12 @@
 <!-- Display table data. -->
 <table border="1" cellpadding="2" cellspacing="2">
    <tr>
-      <td>drug_synoym_id</td>
+      <td>severity_id</td>
    </tr>
 
 <?php
 
-   $result = mysqli_query($connection, "SELECT drug_synonym_id FROM multum_drug_name WHERE drug_name = '" . $drug_name . "' LIMIT 1" );
+   $result = mysqli_query($connection, "SELECT severity_id FROM int_drug_interactions WHERE drug_id_1 = '" . $drug_id_1 . "' AND drug_id_2 = '" . $drug_id_2 . "'" );
 
    while($query_data = mysqli_fetch_row($result)) {
       echo "<tr>";
