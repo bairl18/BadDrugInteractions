@@ -3,7 +3,7 @@
 <body>
 <?php
 
-   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/test1.php?dn=[drug_name] */
+   /* Usage: http://ec2-13-58-76-35.us-east-2.compute.amaonaws.com/nameSearch.php?dn=[drug_name] */
    $drug_name = $_GET["dn"];
 
    /* convert all '+' in parameter back to spaces */
@@ -24,12 +24,12 @@
 <!-- Display table data. -->
 <table border="1" cellpadding="2" cellspacing="2">
    <tr>
-      <td>drug_synoym_id</td>
+      <td>drug_name</td>
    </tr>
 
 <?php
 
-   $result = mysqli_query($connection, "SELECT drug_synonym_id FROM multum_drug_name WHERE drug_name = '" . $drug_name . "' LIMIT 1" );
+   $result = mysqli_query($connection, "SELECT drug_name FROM multum_drug_name WHERE drug_name LIKE '" . $drug_name . "%' ORDER BY drug_name" );
 
    while($query_data = mysqli_fetch_row($result)) {
       echo "<tr>";
