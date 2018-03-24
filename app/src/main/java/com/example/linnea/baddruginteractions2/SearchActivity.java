@@ -30,7 +30,7 @@ import static java.sql.Types.NULL;
 
 public class SearchActivity extends AppCompatActivity {
 
-    DBHandler db = new DBHandler(this);
+    AWSConnector aws = new AWSConnector();
     UserProfileHandler up = new UserProfileHandler(this);
     int selected = -1;
 
@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
     private LayoutInflater layoutInflater;
     private ViewGroup container;
 
-    List<Drug> drugList;
+    List<String> drugList;
 
     ListView fdaMedsList;
 
@@ -54,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
         final Button search = (Button) findViewById(R.id.search);
         final TextView searchField = (TextView) findViewById(R.id.searchField);
 
-        populateMedsList(" ");
+        populateMedsList("");
 
         search.setOnClickListener(new View.OnClickListener()
         {
@@ -94,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
     private void populateMedsList(String searchText)
     {
         // Returns a list of drugs that correspond with the search criteria
-        drugList = db.getDrugList(searchText);
+        drugList = aws.findSimilarDrugNames(searchText);
 
         // Create array of drug name strings
         String[] drugNames = new String[drugList.size()]; // String array of drug names
@@ -102,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         // Add all FDA drug names to the array
         for (int i = 0; i < drugList.size(); i++)
         {
-            drugNames[i] = drugList.get(i).getDrug_name();
+            drugNames[i] = drugList.get(i);
         }
 
         // Build adapter
@@ -161,13 +161,13 @@ public class SearchActivity extends AppCompatActivity {
                             UserDrug ud = new UserDrug(drugList.get(selected));
                             String message = "Drug saved";
 
-                            if (up.searchDrug(ud.getId()) == null) //Drug isn't already in user medications list
+                            if (up.searchDrug(ud.getDrug_name()) == null) // Drug isn't already in user medications list
                             {
                                 up.addDrug(ud); // Add selected drug to user medications list
                             }
                             else // Already in user medications list
                             {
-                                message = "Drug already saved";
+                                message = "This aleady exists in the list of saved drugs";
                             }
 
                             Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();

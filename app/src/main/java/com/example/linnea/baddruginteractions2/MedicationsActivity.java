@@ -67,8 +67,8 @@ public class MedicationsActivity extends AppCompatActivity
             drugInfo = new String[drugList.size()];
             for (int i = 0; i < drugList.size(); i++) {
                 drugInfo[i] = drugList.get(i).getDrug_name() + " | "
-                                + drugList.get(i).getActive_ingredient() + " | "
-                                + drugList.get(i).getForm();
+                                + drugList.get(i).getForm() + " | "
+                                + drugList.get(i).getActive_ingredient();
             }
         }
 
@@ -114,7 +114,7 @@ public class MedicationsActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
 
-                        if (up.searchDrug(drugList.get(selected).getId()) != null) ;
+                        if (up.searchDrug(drugList.get(selected).getDrug_name()) != null) ;
                         {
                             userMedsList.setSelector(android.R.color.transparent);
                             up.deleteDrug(drugList.get(selected));

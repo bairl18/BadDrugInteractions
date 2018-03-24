@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  */
 public class MainActivityUnitTests extends MainActivity {
 
-    DBHandler db = new DBHandler(this);
+    //DBHandler db = new DBHandler(this);
     Drug testDrug;
 
     private final int initId = 1;

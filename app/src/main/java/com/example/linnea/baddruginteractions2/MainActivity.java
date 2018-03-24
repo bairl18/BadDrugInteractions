@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static Boolean programOpens = false;
     private String text = " ";
-    private DBHandler db;
     private UserProfileHandler profile;
     private UserRemindersHandler userReminders;
 
@@ -58,28 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         reminders.setOnClickListener(this);
 
         // Create databases
-        Log.d("MainActivity", "Opening DB");
-        db = new DBHandler(this);
+        Log.d("MainActivity", "Opening User medication DB");
         profile = new UserProfileHandler(this);
         userReminders = new UserRemindersHandler(this);
-
-
+        
         // set to true if you want to reset db next time app opens
-        boolean resetDB = false;
-        if (resetDB) {
-            db.reset();
-        }
-
         boolean resetProfile = false;
         if (resetProfile) {
             profile.reset();
         }
 
-        if (db.countRows() == 0) {
-            parseFdaDatabase();
-        }
     }
-
 
     //onClick method corresponds to onClickListeners: contains instructions
     //for implementing what happens when each button is clicked
@@ -110,76 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Demonstration code for sprint 1
-    public String getMedInfo(int index)
-    {
-        String info = "No Medication Found";
-        Drug drug = db.searchDrug(index);
-        info = "Drug Name: " + drug.getDrug_name()
-                + "\nActive Ingredient: " + drug.getActive_ingredient()
-                + "\nForm: " + drug.getForm()
-                + "\nStrength: " + drug.getStrength();
-        return info;
-    }
-
     public static Boolean openProgramTest()
     {
         programOpens = true;
         return programOpens;
     }
-
-    public void parseFdaDatabase()
-    {
-
-        String csvFile = "Products.txt";
-        BufferedReader br = null;
-        String line = "";
-        String csvSplitBy = "\t";
-
-        try {
-            br = new BufferedReader( new InputStreamReader( getAssets().open(csvFile) ) );
-            int keyIndex = 1;
-
-            // skip top line
-            line = br.readLine();
-
-            while ((line = br.readLine()) != null) {
-
-                // use comma as separator
-                String[] data = line.split(csvSplitBy);
-                String entry[] = new String[8];
-                for (int i = 0; i < entry.length; i++) {
-                    entry[i] = "N/A";
-                }
-
-                for (int i = 0; i < data.length && i < entry.length; i++) {
-                    entry[i] = data[i];
-                }
-
-                Log.d("DBHandler: ", "adding " + Integer.toString(keyIndex));
-
-                Drug drug = new Drug(keyIndex, entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7]);
-
-                db.addDrug(drug);
-
-                keyIndex++;
-
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
 }
