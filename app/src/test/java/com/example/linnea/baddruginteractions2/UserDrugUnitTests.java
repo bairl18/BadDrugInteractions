@@ -36,27 +36,11 @@ public class UserDrugUnitTests {
 
     @Before
     public void init() {
-        testDrug = new UserDrug(initId, initAppl_no, initProduct_no, initForm, initStrength, initReference_drug,
-                initDrug_name, initActive_ingredient, initReference_standard);
+        testDrug = new UserDrug(initDrug_name, initForm, initActive_ingredient);
     }
 
     @Test
-    public void testGetId() { assertEquals(initId, testDrug.getId()); }
-
-    @Test
-    public void testGetAppl_no() { assertEquals(initAppl_no, testDrug.getAppl_no()); }
-
-    @Test
-    public void testGetProduct_no() { assertEquals(initProduct_no, testDrug.getProduct_no()); }
-
-    @Test
     public void testGetForm() { assertEquals(initForm, testDrug.getForm());}
-
-    @Test
-    public void testGetStrength() { assertEquals(initStrength, testDrug.getStrength()); }
-
-    @Test
-    public void testGetReference_drug() { assertEquals(initReference_drug, testDrug.getReference_drug()); }
 
     @Test
     public void testGetDrug_name() { assertEquals(initDrug_name, testDrug.getDrug_name()); }
@@ -65,37 +49,9 @@ public class UserDrugUnitTests {
     public void testGetActive_ingredient() { assertEquals(initActive_ingredient, testDrug.getActive_ingredient()); }
 
     @Test
-    public void testGetReference_standard() { assertEquals(initReference_standard, testDrug.getReference_standard());}
-
-    @Test
-    public void testSetId() {
-        testDrug.setId(newId);
-        assertEquals(newId, testDrug.getId()); }
-
-    @Test
-    public void testSetAppl_no() {
-        testDrug.setAppl_no(newAppl_no);
-        assertEquals(newAppl_no, testDrug.getAppl_no()); }
-
-    @Test
-    public void testSetProduct_no() {
-        testDrug.setProduct_no(newProduct_no);
-        assertEquals(newProduct_no, testDrug.getProduct_no()); }
-
-    @Test
     public void testSetForm() {
         testDrug.setForm(newForm);
         assertEquals(newForm, testDrug.getForm());}
-
-    @Test
-    public void testSetStrength() {
-        testDrug.setStrength(newStrength);
-        assertEquals(newStrength, testDrug.getStrength()); }
-
-    @Test
-    public void testSetReference_drug() {
-        testDrug.setReference_drug(newReference_drug);
-        assertEquals(newReference_drug, testDrug.getReference_drug()); }
 
     @Test
     public void testSetDrug_name() {
@@ -108,14 +64,8 @@ public class UserDrugUnitTests {
         assertEquals(newActive_ingredient, testDrug.getActive_ingredient()); }
 
     @Test
-    public void testSetReference_standard() {
-        testDrug.setReference_standard(newReference_standard);
-        assertEquals(newReference_standard, testDrug.getReference_standard());}
-
-    @Test
     public void testAsDrug() {
         Drug drug = testDrug.asDrug();
-        assertEquals(drug.getId(), testDrug.getId());
         assertNotNull(drug.getForm());
         assertNotNull(drug.getDrug_name());
         assertNotNull(drug.getActive_ingredient());
@@ -123,19 +73,12 @@ public class UserDrugUnitTests {
 
     @Test
     public void testUserDrug1() {
-        testDrug2 = new UserDrug(initId, initAppl_no, initProduct_no, initForm, initStrength, initReference_drug,
-                initDrug_name, initActive_ingredient, initReference_standard);
+        testDrug2 = new Drug(initDrug_name, initForm, initActive_ingredient);
 
         UserDrug newUserDrug = new UserDrug(testDrug2);
-        assertEquals(newUserDrug.getId(), testDrug2.getId());
-        assertEquals(newUserDrug.getAppl_no(), testDrug2.getAppl_no());
-        assertEquals(newUserDrug.getProduct_no(), testDrug2.getProduct_no());
         assertEquals(newUserDrug.getForm(), testDrug2.getForm());
-        assertEquals(newUserDrug.getStrength(), testDrug2.getStrength());
-        assertEquals(newUserDrug.getReference_drug(), testDrug2.getReference_drug());
         assertEquals(newUserDrug.getDrug_name(), testDrug2.getDrug_name());
         assertEquals(newUserDrug.getActive_ingredient(), testDrug2.getActive_ingredient());
-        assertEquals(newUserDrug.getReference_standard(), testDrug2.getReference_standard());
     }
 
     @Test
@@ -144,15 +87,9 @@ public class UserDrugUnitTests {
         UserDrug userDrugBlank = new UserDrug();
         UserDrug userDrugBlank2 = new UserDrug();
 
-        assertEquals(userDrugBlank.getId(), 0);
-        assertEquals(userDrugBlank.getAppl_no(), null);
-        assertEquals(userDrugBlank.getProduct_no(), null);
         assertEquals(userDrugBlank.getForm(), null );
-        assertEquals(userDrugBlank.getStrength(), null);
-        assertEquals(userDrugBlank.getReference_drug(), null);
         assertEquals(userDrugBlank.getDrug_name(), null);
         assertEquals(userDrugBlank.getActive_ingredient(), null);
-        assertEquals(userDrugBlank.getReference_standard(), null);
     }
 
 

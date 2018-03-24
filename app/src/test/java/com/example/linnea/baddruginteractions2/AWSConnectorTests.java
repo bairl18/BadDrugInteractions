@@ -17,7 +17,7 @@ public class AWSConnectorTests {
 
         assertEquals(new AWSConnector().getSynonymID("diazepam"), "894");
 
-        assertEquals(new AWSConnector().getIntDescription("Calcium Chloride"), "16");
+        assertEquals(new AWSConnector().getSynonymID("Calcium Chloride"), "16");
 
         assertNull(new AWSConnector().getSynonymID("not a real drug"));
 

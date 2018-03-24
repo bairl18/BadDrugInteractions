@@ -7,9 +7,14 @@ package com.example.linnea.baddruginteractions2;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import android.os.AsyncTask;
+import android.util.Log;
 
 public class AWSConnector {
 
@@ -63,8 +68,7 @@ public class AWSConnector {
                     }
                 }
             }
-            info.clear();
-            return info; // return empty list if the search finds nothing
+            return new ArrayList<String>(); // return empty list if the search finds nothing
         }
 
         /*
@@ -75,10 +79,13 @@ public class AWSConnector {
          */
         public List<String> findSimilarDrugNames(String drugname) {
 
-            String urlParam = drugname.replaceAll("\\s+", "+"); // replace white spaces with '+'. URL friendly.
-            List<String> searchResult = this.search(awsURL + "nameSearch.php?dn=" + urlParam);
+            if(!drugname.isEmpty()) {
+                String urlParam = drugname.replaceAll("\\s+", "+"); // replace white spaces with '+'. URL friendly.
+                List<String> searchResult = this.search(awsURL + "nameSearch.php?dn=" + urlParam);
 
-            return searchResult;
+                return searchResult;
+            }
+            return new ArrayList<String>();
         }
 
         // drug_name --> drug_synonym_id
@@ -168,21 +175,13 @@ public class AWSConnector {
             String html = "";
 
             try {
-                URL query1 = new URL(phpurl);
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(query1.openStream()));
-                String inputLine;
-
-                while ((inputLine = in.readLine()) != null) {
-                    html += inputLine;
-                }
-                in.close();
+                html = new Connection().execute(phpurl).get();
             }
-            catch (MalformedURLException e) {
-                e.printStackTrace();
+            catch(InterruptedException e) {
+                Log.d("AsyncTask: ", "InterruptedException");
             }
-            catch (IOException e) {
-                e.printStackTrace();
+            catch(ExecutionException e) {
+                Log.d("AsyncTask: ", "ExecutionException");
             }
 
             if (!html.isEmpty()) {
@@ -204,6 +203,49 @@ public class AWSConnector {
                 }
             }
             return result;
+        }
+
+        private class Connection extends AsyncTask<String, Integer, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected String doInBackground(String... url) {
+                String myURL = url[0];
+                String html = "";
+
+                try {
+                    URL query1 = new URL(myURL);
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(query1.openStream()));
+                    String inputLine;
+
+                    while ((inputLine = in.readLine()) != null) {
+                        html += inputLine;
+                    }
+                    in.close();
+                }
+                catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return html;
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+            }
         }
 
 }
