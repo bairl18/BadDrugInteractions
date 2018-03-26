@@ -53,27 +53,27 @@ public class MedicationsActivity extends AppCompatActivity
     private void populateMedsList() {
 
         drugList = up.asList();
-        // Create list of meds
 
-        String[] drugInfo;
+        // Create list of meds
+        String[] drugNames;
 
         if(drugList.isEmpty()) // Is empty
         {
-            drugInfo = new String[1];
-            drugInfo[0] = "You have no medications.";
+            drugNames = new String[1];
+            drugNames[0] = "You have no medications.";
         }
         else // Not empty
         {
-            drugInfo = new String[drugList.size()];
-            for (int i = 0; i < drugList.size(); i++) {
-                drugInfo[i] = drugList.get(i).getDrug_name() + " | "
-                                + drugList.get(i).getForm() + " | "
-                                + drugList.get(i).getActive_ingredient();
+            drugNames = new String[drugList.size()];
+
+            for (int i = 0; i < drugList.size(); i++)
+            {
+                drugNames[i] = drugList.get(i).getDrug_name();
             }
         }
 
         // Build adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugInfo);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items_layout, drugNames);
 
         // Configure list view
         ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
