@@ -105,7 +105,7 @@ public class MedicationsActivity extends AppCompatActivity
                 layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 container = (ViewGroup) layoutInflater.inflate(R.layout.activity_delete_pop_up, null);
 
-                popupWindow = new PopupWindow(container, 500, 450, true);
+                popupWindow = new PopupWindow(container, 550, 500, true);
                 popupWindow.setAnimationStyle(-1);
                 popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x + 200, y);
 

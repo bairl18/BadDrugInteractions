@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageButton settings;
     public ImageButton reminders;
 
+    public ImageView logo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         openProgramTest();
+
+        logo = (ImageView) findViewById(R.id.logo);
+        logo.bringToFront();
 
         // Buttons
         meds = (ImageButton)findViewById(R.id.medsButton);

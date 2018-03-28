@@ -1,5 +1,6 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -141,7 +142,7 @@ public class SearchActivity extends AppCompatActivity {
                 layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 container = (ViewGroup) layoutInflater.inflate(R.layout.activity_add_pop_up, null);
 
-                popupWindow = new PopupWindow(container, 500, 450, true);
+                popupWindow = new PopupWindow(container, 550, 500, true);
                 popupWindow.setAnimationStyle(-1);
                 popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x+200, y);
 
@@ -167,6 +168,11 @@ public class SearchActivity extends AppCompatActivity {
                                 // Display warning message if there is an interaction
 
                                 up.addDrug(ud); // Add selected drug to user medications list
+
+                                // Go to meds list
+                                finish();
+                                Intent intent = new Intent(SearchActivity.this, MedicationsActivity.class);
+                                startActivity(intent);
                             }
                             else // Already in user medications list
                             {

@@ -65,6 +65,13 @@ public class RemindersActivity extends AppCompatActivity{
     AlarmManager alarmManager;
     Intent myIntent;
 
+    private View.OnClickListener addOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            editReminder("", 0, 0, 0, 0, "", "", "");
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,279 +88,308 @@ public class RemindersActivity extends AppCompatActivity{
 
         // Buttons
         add = (ImageButton)findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener()
+        add.setOnClickListener(addOnClickListener);
+    }
+
+    // User may edit and save reminder attributes
+    private void editReminder(String initDrug, int initDay, int initMonth, int initYear, int initHour, String initMin, String initAmPm, String initFreq)
+    {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(RemindersActivity.this);
+
+        // Inflate reminder attrs dialog layout so we can access its buttons
+        View remAttrsLayout = getLayoutInflater().inflate(reminder_attrs_list, null);
+
+        // Buttons in reminder attrs dialog
+        drugButton = (Button)remAttrsLayout.findViewById(R.id.drugButton);
+        startDateButton = (Button)remAttrsLayout.findViewById(R.id.dateButton);
+        timeButton = (Button)remAttrsLayout.findViewById(R.id.timeButton);
+        freqButton = (Button)remAttrsLayout.findViewById(R.id.freqButton);
+        save = (Button)remAttrsLayout.findViewById(R.id.save);
+        cancel = (Button)remAttrsLayout.findViewById(R.id.cancel);
+
+        // Initialize button text
+        if (!initDrug.equals(""))
+        {
+            drugButton.setText(initDrug);
+            drug = initDrug;
+        }
+        if (initDay != 0 && initMonth != 0 && initYear != 0)
+        {
+            startDateButton.setText(initMonth+1 + "/" + initDay + "/" + initYear);
+            day = initDay;
+            month = initMonth;
+            year = initYear;
+        }
+        if (initHour != 0 && initMin != null)
+        {
+            timeButton.setText(initHour + ":" + initMin + " " + amPm);
+            hour = initHour;
+            minuteStr = initMin;
+        }
+        if(!initAmPm.equals(""))
+        {
+            amPm = initAmPm;
+        }
+        if (!initFreq.equals(""))
+        {
+            freqButton.setText(initFreq);
+            frequency = initFreq;
+        }
+
+        freqButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(View view)
             {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RemindersActivity.this);
+                AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(RemindersActivity.this);
+                mBuilder2.setIcon(R.drawable.repeat);
 
-                // Inflate reminder attrs dialog layout so we can access its buttons
-                View remAttrsLayout = getLayoutInflater().inflate(reminder_attrs_list, null);
+                // Inflate frequency picker so we can access its buttons
+                View freqPickerLayout = getLayoutInflater().inflate(frequency_picker, null);
 
-                // Buttons in reminder attrs dialog
-                drugButton = (Button)remAttrsLayout.findViewById(R.id.drugButton);
-                startDateButton = (Button)remAttrsLayout.findViewById(R.id.dateButton);
-                timeButton = (Button)remAttrsLayout.findViewById(R.id.timeButton);
-                freqButton = (Button)remAttrsLayout.findViewById(R.id.freqButton);
-                save = (Button)remAttrsLayout.findViewById(R.id.save);
-                cancel = (Button)remAttrsLayout.findViewById(R.id.cancel);
+                onceButton = (RadioButton)freqPickerLayout.findViewById(R.id.once);
+                dailyButton = (RadioButton)freqPickerLayout.findViewById(R.id.daily);
+                weeklyButton = (RadioButton)freqPickerLayout.findViewById(R.id.weekly);
+                monthlyButton = (RadioButton)freqPickerLayout.findViewById(R.id.monthly);
+                okay = (Button)freqPickerLayout.findViewById(R.id.okayButton);
+                cancel2 = (Button)freqPickerLayout.findViewById(R.id.cancelButton);
 
-                freqButton.setOnClickListener(new View.OnClickListener()
+                mBuilder2.setView(freqPickerLayout);
+                final AlertDialog freqPickerDialog = mBuilder2.create();
+                freqPickerDialog.show();
+
+                okay.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View view)
                     {
-                        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(RemindersActivity.this);
-                        mBuilder2.setIcon(R.drawable.repeat);
-
-                        // Inflate frequency picker so we can access its buttons
-                        View freqPickerLayout = getLayoutInflater().inflate(frequency_picker, null);
-
-                        onceButton = (RadioButton)freqPickerLayout.findViewById(R.id.once);
-                        dailyButton = (RadioButton)freqPickerLayout.findViewById(R.id.daily);
-                        weeklyButton = (RadioButton)freqPickerLayout.findViewById(R.id.weekly);
-                        monthlyButton = (RadioButton)freqPickerLayout.findViewById(R.id.monthly);
-                        okay = (Button)freqPickerLayout.findViewById(R.id.okayButton);
-                        cancel2 = (Button)freqPickerLayout.findViewById(R.id.cancelButton);
-
-                        mBuilder2.setView(freqPickerLayout);
-                        final AlertDialog freqPickerDialog = mBuilder2.create();
-                        freqPickerDialog.show();
-
-                        okay.setOnClickListener(new View.OnClickListener()
+                        if(onceButton.isChecked())
                         {
-                            @Override
-                            public void onClick(View view)
-                            {
-                                if(onceButton.isChecked())
-                                {
-                                    frequency = "once";
-                                    freqButton.setText("once");
-                                    freqPickerDialog.dismiss();
-                                }
-                                else if(dailyButton.isChecked())
-                                {
-                                    frequency = "daily";
-                                    freqButton.setText("daily");
-                                    freqPickerDialog.dismiss();
-                                }
-                                else if(weeklyButton.isChecked())
-                                {
-                                    frequency = "weekly";
-                                    freqButton.setText("weekly");
-                                    freqPickerDialog.dismiss();
-                                }
-                                else if(monthlyButton.isChecked())
-                                {
-                                    frequency = "monthly";
-                                    freqButton.setText("monthly");
-                                    freqPickerDialog.dismiss();
-                                }
-                                else
-                                {
-                                    String message = "Please select a frequency";
-                                    Toast.makeText(RemindersActivity.this, message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-
-                        // Close dialog when user presses cancel
-                        cancel2.setOnClickListener(new View.OnClickListener()
+                            frequency = "once";
+                            freqButton.setText("once");
+                            freqPickerDialog.dismiss();
+                        }
+                        else if(dailyButton.isChecked())
                         {
-                            @Override
-                            public void onClick(View view)
-                            {
-                                freqPickerDialog.dismiss();
-                            }
-                        });
-                    }
-                });
-
-                startDateButton.setOnClickListener(new View.OnClickListener()
-                {
-
-                    Calendar cal = Calendar.getInstance();
-                    int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-                    int currentMonth = cal.get(Calendar.MONTH);
-                    int currentYear = cal.get(Calendar.YEAR);
-
-                    @Override
-                    public void onClick(View view)
-                    {
-
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(RemindersActivity.this, new DatePickerDialog.OnDateSetListener()
+                            frequency = "daily";
+                            freqButton.setText("daily");
+                            freqPickerDialog.dismiss();
+                        }
+                        else if(weeklyButton.isChecked())
                         {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2)
-                            {
-                                year = i;
-                                month = i1+1;
-                                day = i2;
-
-                                startDateButton.setText(i1+1 + "/" + i2 + "/" + i);
-                            }
-                        }, currentYear, currentMonth, currentDay);
-
-                        datePickerDialog.show();
-
-                    }
-                });
-
-                timeButton.setOnClickListener(new View.OnClickListener()
-                {
-
-                    Calendar cal = Calendar.getInstance();
-                    int currentHour = cal.get(Calendar.HOUR_OF_DAY);
-                    int currentMinute = cal.get(Calendar.MINUTE);
-
-                    @Override
-                    public void onClick(View view)
-                    {
-
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(RemindersActivity.this, new TimePickerDialog.OnTimeSetListener()
+                            frequency = "weekly";
+                            freqButton.setText("weekly");
+                            freqPickerDialog.dismiss();
+                        }
+                        else if(monthlyButton.isChecked())
                         {
-                            @Override
-                            public void onTimeSet(TimePicker TimePicker, int i, int i1)
-                            {
-                                hour = i;
-                                hour24 = i;
-                                minute = i1;
-
-                                if(hour >= 12)
-                                {
-                                    amPm = "PM";
-
-                                    if(hour != 12)
-                                    {
-                                        hour = hour-12;
-                                    }
-                                }
-                                else
-                                {
-                                    amPm = "AM";
-                                }
-
-                                if(minute < 10)
-                                {
-                                    // Make minute times less than 10 still appear with two numbers
-                                    DecimalFormat df = new DecimalFormat("00");
-                                    minuteStr = df.format(i1);
-                                    timeButton.setText(hour + ":" + minuteStr + " " + amPm);
-                                }
-                                else
-                                {
-                                    timeButton.setText(hour + ":" + minute + " " + amPm);
-                                }
-                            }
-                        }, currentHour, currentMinute, false);
-
-                        timePickerDialog.show();
-                    }
-                });
-
-                drugButton.setOnClickListener(new View.OnClickListener()
-                {
-
-                    @Override
-                    public void onClick(View view)
-                    {
-                        AlertDialog.Builder mBuilder3 = new AlertDialog.Builder(RemindersActivity.this);
-
-                        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RemindersActivity.this, android.R.layout.select_dialog_singlechoice);
-
-                        drugList = up.asList();
-
-                        if (drugList.isEmpty())
-                        {
-                            arrayAdapter.add("You have no medications");
+                            frequency = "monthly";
+                            freqButton.setText("monthly");
+                            freqPickerDialog.dismiss();
                         }
                         else
                         {
-                            // Add all med names to the list
-                            for (int i = 0; i < drugList.size(); i++)
-                            {
-                                String name = drugList.get(i).getDrug_name();
-                                arrayAdapter.add(name);
-                            }
-                        }
-
-                        mBuilder3.setNegativeButton("cancel", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        mBuilder3.setAdapter(arrayAdapter, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                final String strName = arrayAdapter.getItem(which);
-
-                                if (!strName.equals("You have no medications"))
-                                {
-                                    AlertDialog.Builder builderInner = new AlertDialog.Builder(RemindersActivity.this);
-                                    builderInner.setMessage(strName);
-                                    builderInner.setTitle("You Selected: ");
-                                    builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            drugButton.setText(strName);
-                                            drug = strName;
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    builderInner.show();
-                                }
-                            }
-                        });
-                        mBuilder3.show();
-                    }
-
-                });
-
-                mBuilder.setView(remAttrsLayout);
-                final AlertDialog remAttrsDialog = mBuilder.create();
-                remAttrsDialog.show();
-
-                // Close dialog when user presses cancel
-                cancel.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        remAttrsDialog.dismiss();
-                    }
-                });
-
-                save.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        if(drug != null && day != 0 && month != 0 && year != 0 && hour != 0
-                                && (minuteStr != null || minute != 0) && amPm != null && frequency != null)
-                        {
-                            addReminder(drug, day, month, year, hour, minute, amPm, frequency);
-                            setNotification();
-                            remAttrsDialog.dismiss();
-                            populateRemsList();
-                        }
-                        else
-                        {
-                            String message = "Please complete all fields";
+                            String message = "Please select a frequency";
                             Toast.makeText(RemindersActivity.this, message, Toast.LENGTH_LONG).show();
                         }
                     }
+                });
 
+                // Close dialog when user presses cancel
+                cancel2.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        freqPickerDialog.dismiss();
+                    }
                 });
             }
         });
+
+        startDateButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            Calendar cal = Calendar.getInstance();
+            int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+            int currentMonth = cal.get(Calendar.MONTH);
+            int currentYear = cal.get(Calendar.YEAR);
+
+            @Override
+            public void onClick(View view)
+            {
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RemindersActivity.this, new DatePickerDialog.OnDateSetListener()
+                {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2)
+                    {
+                        year = i;
+                        month = i1+1;
+                        day = i2;
+
+                        startDateButton.setText(i1+1 + "/" + i2 + "/" + i);
+                    }
+                }, currentYear, currentMonth, currentDay);
+
+                datePickerDialog.show();
+
+            }
+        });
+
+        timeButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            Calendar cal = Calendar.getInstance();
+            int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+            int currentMinute = cal.get(Calendar.MINUTE);
+
+            @Override
+            public void onClick(View view)
+            {
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(RemindersActivity.this, new TimePickerDialog.OnTimeSetListener()
+                {
+                    @Override
+                    public void onTimeSet(TimePicker TimePicker, int i, int i1)
+                    {
+                        hour = i;
+                        hour24 = i;
+                        minute = i1;
+
+                        if(hour >= 12)
+                        {
+                            amPm = "PM";
+
+                            if(hour != 12)
+                            {
+                                hour = hour-12;
+                            }
+                        }
+                        else
+                        {
+                            amPm = "AM";
+                        }
+
+                        if(minute < 10)
+                        {
+                            // Make minute times less than 10 still appear with two numbers
+                            DecimalFormat df = new DecimalFormat("00");
+                            minuteStr = df.format(i1);
+                            timeButton.setText(hour + ":" + minuteStr + " " + amPm);
+                        }
+                        else
+                        {
+                            timeButton.setText(hour + ":" + minute + " " + amPm);
+                        }
+                    }
+                }, currentHour, currentMinute, false);
+
+                timePickerDialog.show();
+            }
+        });
+
+        drugButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder mBuilder3 = new AlertDialog.Builder(RemindersActivity.this);
+
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RemindersActivity.this, android.R.layout.select_dialog_singlechoice);
+
+                drugList = up.asList();
+
+                if (drugList.isEmpty())
+                {
+                    arrayAdapter.add("You have no medications");
+                }
+                else
+                {
+                    // Add all med names to the list
+                    for (int i = 0; i < drugList.size(); i++)
+                    {
+                        String name = drugList.get(i).getDrug_name();
+                        arrayAdapter.add(name);
+                    }
+                }
+
+                mBuilder3.setNegativeButton("cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+
+                mBuilder3.setAdapter(arrayAdapter, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        final String strName = arrayAdapter.getItem(which);
+
+                        if (!strName.equals("You have no medications"))
+                        {
+                            AlertDialog.Builder builderInner = new AlertDialog.Builder(RemindersActivity.this);
+                            builderInner.setMessage(strName);
+                            builderInner.setTitle("You Selected: ");
+                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    drugButton.setText(strName);
+                                    drug = strName;
+                                    dialog.dismiss();
+                                }
+                            });
+                            builderInner.show();
+                        }
+                    }
+                });
+                mBuilder3.show();
+            }
+
+        });
+
+        mBuilder.setView(remAttrsLayout);
+        final AlertDialog remAttrsDialog = mBuilder.create();
+        remAttrsDialog.show();
+
+        // Close dialog when user presses cancel
+        cancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                remAttrsDialog.dismiss();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(drug != null && day != 0 && month != 0 && year != 0 && hour != 0
+                        && (minuteStr != null || minute != 0) && amPm != null && frequency != null)
+                {
+                    addReminder(drug, day, month, year, hour, minute, amPm, frequency);
+                    setNotification();
+                    remAttrsDialog.dismiss();
+                    populateRemsList();
+                }
+                else
+                {
+                    String message = "Please complete all fields";
+                    Toast.makeText(RemindersActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+        });
     }
+
 
 
     // Put all reminders into the ListView
@@ -480,7 +516,7 @@ public class RemindersActivity extends AppCompatActivity{
                     layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                     container = (ViewGroup) layoutInflater.inflate(R.layout.activity_delete_edit_reminder, null);
 
-                    popupWindow = new PopupWindow(container, 500, 410, true);
+                    popupWindow = new PopupWindow(container, 570, 450, true);
                     popupWindow.setAnimationStyle(-1);
                     popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x + 200, y);
 
@@ -518,6 +554,63 @@ public class RemindersActivity extends AppCompatActivity{
                                     finish();
                                     startActivity(getIntent());
                                 }
+                            }
+                        }
+                    });
+
+                    ImageButton edit = (ImageButton) container.findViewById(R.id.edit);
+                    edit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            // Check if the reminder is in the rems list
+                            if (ur.searchReminder(remList.get(selected).getId()) != null)
+                            {
+                                String thisDrug = remList.get(selected).getDrugName();
+                                int thisDay = remList.get(selected).getStartDay();
+                                int thisMonth = remList.get(selected).getStartMonth();
+                                int thisYear = remList.get(selected).getStartYear();
+                                int thisHour = remList.get(selected).getTimeHour();
+                                String thisAmPm = remList.get(selected).getAmPm();
+                                String thisMin = remList.get(selected).getTimeMinutes();
+                                String thisFreq = remList.get(selected).getFrequency();
+
+                                // Number of reminders
+                                //List<Reminder> remList2 = ur.asList();
+                                int preSize = ur.countRows();
+
+                                // Create a new edited reminder
+                                editReminder(thisDrug, thisDay, thisMonth, thisYear, thisHour, thisMin, thisAmPm, thisFreq);
+
+                                //List<Reminder> remList3 = ur.asList();
+                                int postSize = ur.countRows();
+                                if(postSize > preSize) // Check if a reminder was actually added
+                                {
+                                    // Delete the reminder
+                                    remsList.setSelector(android.R.color.transparent);
+
+                                    if(remList.get(selected) != null)
+                                    {
+                                        ur.deleteRem(remList.get(selected));
+                                    }
+
+                                    // Delete the corresponding notification
+                                    PendingIntent pIntent = intentArray[remList.get(selected).getId()];
+
+                                    if(alarmManager != null)
+                                    {
+                                        alarmManager.cancel(pIntent);
+                                    }
+
+                                    if(intentArray[remList.get(selected).getId()] != null)
+                                    {
+                                        intentArray[remList.get(selected).getId()] = null;
+                                    }
+
+                                }
+
+                                popupWindow.dismiss();
+                                populateRemsList();
                             }
                         }
                     });

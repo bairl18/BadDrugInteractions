@@ -26,8 +26,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:text="DRUG"
         android:textAlignment="textStart"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/dateButton"
@@ -44,8 +43,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Start Date"
         android:textAlignment="textStart"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/timeButton"
@@ -62,8 +60,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Time"
         android:textAlignment="textStart"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/freqButton"
@@ -80,8 +77,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Frequency"
         android:textAlignment="textStart"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,7 +102,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@android:string/cancel"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <Space
             android:layout_width="wrap_content"
@@ -124,7 +120,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="save"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <Space
             android:layout_width="wrap_content"
