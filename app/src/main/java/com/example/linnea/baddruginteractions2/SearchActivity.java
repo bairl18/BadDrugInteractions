@@ -55,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         final Button search = (Button) findViewById(R.id.search);
         final TextView searchField = (TextView) findViewById(R.id.searchField);
 
-        populateMedsList("");
+        populateMedsList("a-");
 
         search.setOnClickListener(new View.OnClickListener()
         {
@@ -165,18 +165,21 @@ public class SearchActivity extends AppCompatActivity {
 
                             if (up.searchDrug(ud.getDrug_name()) == null) // Drug isn't already in user medications list
                             {
+                                // Check for interactions between this drug and the other saved drugs
+                                // Display warning message if there is an interaction
+
                                 List<UserDrug> savedDrugs = up.asList();
 
                                 for (UserDrug d : savedDrugs) {
                                     Interaction interaction = di.lookupInteractionForDrugs(ud, d);
                                     di.addInteraction(interaction);
                                 }
-                                
+
                                 up.addDrug(ud); // Add selected drug to user medications list
                             }
                             else // Already in user medications list
                             {
-                                message = "This aleady exists in the list of saved drugs";
+                                message = "This medication is already saved.";
                             }
 
                             Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();

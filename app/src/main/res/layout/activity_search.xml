@@ -29,7 +29,7 @@
             android:textAlignment="center"
             android:textColor="#898989"
             android:textCursorDrawable="@null"
-            android:textSize="22sp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/search"
@@ -40,7 +40,7 @@
             android:layout_toRightOf="@+id/searchField"
             android:layout_weight="2"
             android:text="search"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_column="1"
             app:layout_row="0" />
 
