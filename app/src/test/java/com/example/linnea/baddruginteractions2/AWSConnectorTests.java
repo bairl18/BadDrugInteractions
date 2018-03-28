@@ -83,6 +83,27 @@ public class AWSConnectorTests {
     }
 
     @Test
+    public void fullQueryDrugNameToInfo2() {
+
+        assertEquals(new AWSConnector().drugnamesToInteractionInfo("trandate", "diazepam").get(0), "Minor Drug Interaction");
+
+        assertEquals(new AWSConnector().drugnamesToInteractionInfo("diazepam", "trandate").get(0), "Minor Drug Interaction");
+
+        assertEquals(new AWSConnector().drugnamesToInteractionInfo("trandate", "diazepam").get(1), "The pharmacologic effects of some benzodiazepines may be increased by some beta-blockers. " +
+                "Propranolol and metoprolol may inhibit the hepatic metabolism of diazepam and other mechanisms may also be involved. Most changes have been clinically insignificant; " +
+                "however, increased reaction times and/or decreased kinetic visual acuity have been reported with some combinations. Observation for altered benzodiazepine effects is " +
+                "recommended if these drugs must be used together. Patients should be warned against driving or operating hazardous machinery.");
+
+        assertEquals(new AWSConnector().drugnamesToInteractionInfo("diazepam", "trandate").get(1), "The pharmacologic effects of some benzodiazepines may be increased by some beta-blockers. " +
+                "Propranolol and metoprolol may inhibit the hepatic metabolism of diazepam and other mechanisms may also be involved. Most changes have been clinically insignificant; " +
+                "however, increased reaction times and/or decreased kinetic visual acuity have been reported with some combinations. Observation for altered benzodiazepine effects is " +
+                "recommended if these drugs must be used together. Patients should be warned against driving or operating hazardous machinery.");
+
+        assertTrue(new AWSConnector().drugnamesToInteractionInfo("dummy drug", "made up med").isEmpty());
+
+    }
+
+    @Test
     public void searchForSimilarNames() {
 
         assertTrue(new AWSConnector().findSimilarDrugNames("tylenol").contains("Tylenol Cough"));

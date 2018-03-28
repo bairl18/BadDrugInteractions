@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Boolean programOpens = false;
     private String text = " ";
     private UserProfileHandler profile;
+    private DrugInteractionsHandler interactions;
     private UserRemindersHandler userReminders;
 
     // Button Definitions
@@ -59,12 +60,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create databases
         Log.d("MainActivity", "Opening User medication DB");
         profile = new UserProfileHandler(this);
+        interactions = new DrugInteractionsHandler(this);
+
         userReminders = new UserRemindersHandler(this);
         
         // set to true if you want to reset db next time app opens
         boolean resetProfile = false;
         if (resetProfile) {
             profile.reset();
+            interactions.reset(); // reset interactions too
         }
 
     }
