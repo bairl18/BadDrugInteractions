@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import android.util.Log;
 
 import static android.R.id.list;
 import static com.example.linnea.baddruginteractions2.R.color.colorPrimaryDark;
@@ -28,6 +29,7 @@ public class MedicationsActivity extends AppCompatActivity
 {
 
     UserProfileHandler up = new UserProfileHandler(this);
+    DrugInteractionsHandler di = new DrugInteractionsHandler(this);
     int selected;
 
     private LinearLayout linearLayout;
@@ -69,6 +71,17 @@ public class MedicationsActivity extends AppCompatActivity
             for (int i = 0; i < drugList.size(); i++)
             {
                 drugNames[i] = drugList.get(i).getDrug_name();
+
+                /* temporary code */
+                List<Interaction> interactionTest = di.searchInteractionsForDrug(drugList.get(i));
+                for (Interaction t : interactionTest)
+                {
+                    Log.d(drugList.get(i).getDrug_name() + ": ", t.getDrugName1()
+                            + " " + t.getDrugName2()
+                            + " " + t.getSeverity()
+                            + " " + t.getDescription());
+                }
+                /* -------------- */
             }
         }
 
@@ -117,6 +130,7 @@ public class MedicationsActivity extends AppCompatActivity
                         if (up.searchDrug(drugList.get(selected).getDrug_name()) != null) ;
                         {
                             userMedsList.setSelector(android.R.color.transparent);
+                            di.deleteInteractionsForDrug(drugList.get(selected));
                             up.deleteDrug(drugList.get(selected));
                             popupWindow.dismiss();
 

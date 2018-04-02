@@ -33,6 +33,7 @@ public class SearchActivity extends AppCompatActivity {
 
     AWSConnector aws = new AWSConnector();
     UserProfileHandler up = new UserProfileHandler(this);
+    DrugInteractionsHandler di = new DrugInteractionsHandler(this);
     int selected = -1;
 
     private LinearLayout linearLayout;
@@ -160,12 +161,20 @@ public class SearchActivity extends AppCompatActivity {
 
                             // Create new UserDrug by getting corresponding drug at the selected position
                             UserDrug ud = new UserDrug(drugList.get(selected));
+
                             String message = "Drug saved";
 
                             if (up.searchDrug(ud.getDrug_name()) == null) // Drug isn't already in user medications list
                             {
                                 // Check for interactions between this drug and the other saved drugs
                                 // Display warning message if there is an interaction
+
+                                List<UserDrug> savedDrugs = up.asList();
+
+                                for (UserDrug d : savedDrugs) {
+                                    Interaction interaction = di.lookupInteractionForDrugs(ud, d);
+                                    di.addInteraction(interaction);
+                                }
 
                                 up.addDrug(ud); // Add selected drug to user medications list
 

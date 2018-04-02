@@ -72,6 +72,20 @@ public class AWSConnector {
         }
 
         /*
+         * Does the same thing as drugnamesToInteractionInfo
+         * except it checks again with the inputs reversed
+         */
+        public List<String> drugnamesToInteractionInfo2(String drugname1, String drugname2) {
+
+            List<String> info = drugnamesToInteractionInfo(drugname1, drugname2);
+
+            if (info.isEmpty()) {
+                info = drugnamesToInteractionInfo(drugname2, drugname1);
+            }
+            return info;
+        }
+
+        /*
          * get a list of drug names that starts with the input string.
          *
          * i.e. input "tylenol" will return a list of drug names with entries like "Tylenol Cold Relief Nighttime" and "Tylenol Sinus Gelcap"
