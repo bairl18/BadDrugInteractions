@@ -395,7 +395,6 @@ public class RemindersActivity extends AppCompatActivity{
     // Put all reminders into the ListView
     private void populateRemsList()
     {
-
         remList = ur.asList();
         String[] remInfo;
 

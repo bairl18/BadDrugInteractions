@@ -24,11 +24,9 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:allowUndo="true"
-            android:buttonTint="@color/colorPrimaryDark"
             android:checked="false"
             android:text="Once"
-            android:textColor="@color/colorPrimaryDark"
-            RadioButton:buttonTint="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <RadioButton
             android:id="@+id/daily"
@@ -38,10 +36,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:buttonTint="@color/colorPrimaryDark"
             android:text="Daily"
-            android:textColor="@color/colorPrimaryDark"
-            RadioButton:buttonTint="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <RadioButton
             android:id="@+id/weekly"
@@ -51,10 +47,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:buttonTint="@color/colorPrimaryDark"
             android:text="Weekly"
-            android:textColor="@color/colorPrimaryDark"
-            RadioButton:buttonTint="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <RadioButton
             android:id="@+id/monthly"
@@ -63,10 +57,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:buttonTint="@color/colorPrimaryDark"
             android:text="Monthly"
-            android:textColor="@color/colorPrimaryDark"
-            RadioButton:buttonTint="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark" />
 
     </RadioGroup>
 

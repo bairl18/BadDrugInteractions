@@ -1,12 +1,16 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,6 +39,9 @@ public class SearchActivity extends AppCompatActivity {
     UserProfileHandler up = new UserProfileHandler(this);
     DrugInteractionsHandler di = new DrugInteractionsHandler(this);
     int selected = -1;
+
+    Boolean interactionFound = false;
+
 
     private LinearLayout linearLayout;
     private PopupWindow popupWindow;
@@ -160,37 +167,146 @@ public class SearchActivity extends AppCompatActivity {
                             fdaMedsList.setSelector(android.R.color.transparent);
 
                             // Create new UserDrug by getting corresponding drug at the selected position
-                            UserDrug ud = new UserDrug(drugList.get(selected));
+                            final UserDrug ud = new UserDrug(drugList.get(selected));
 
-                            String message = "Drug saved";
+                            final String message = "Drug saved";
 
                             if (up.searchDrug(ud.getDrug_name()) == null) // Drug isn't already in user medications list
                             {
                                 // Check for interactions between this drug and the other saved drugs
                                 // Display warning message if there is an interaction
-
                                 List<UserDrug> savedDrugs = up.asList();
 
-                                for (UserDrug d : savedDrugs) {
-                                    Interaction interaction = di.lookupInteractionForDrugs(ud, d);
-                                    di.addInteraction(interaction);
+                                if(!savedDrugs.isEmpty())
+                                {
+                                    for (UserDrug d : savedDrugs)
+                                    {
+
+                                        // ud is drug selected by user, d is a drug already in the user meds list
+                                        final Interaction interaction = di.lookupInteractionForDrugs(ud, d);
+
+                                        // Interaction is found
+                                        if (interaction != null)
+                                        {
+                                            interactionFound = true;
+
+                                            // Warning message to user
+                                            final AlertDialog alertDialog = new AlertDialog.Builder(SearchActivity.this).create();
+
+                                            TextView dialogTitle1 = new TextView(getApplicationContext());
+                                            dialogTitle1.setText("Warning! \n Interaction found.");
+                                            dialogTitle1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                                            dialogTitle1.setTextColor(Color.parseColor("#c70039"));
+                                            dialogTitle1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                            dialogTitle1.setTypeface(dialogTitle1.getTypeface(), Typeface.BOLD);
+                                            dialogTitle1.setPadding(0,30,0,0);
+                                            alertDialog.setCustomTitle(dialogTitle1);
+
+                                            alertDialog.setMessage("\nTaking " + ud.getDrug_name() + " and " + d.getDrug_name() + " may result in a " + interaction.getSeverity() + ".\n" +
+                                                    "Do you still want to save this drug?");
+
+                                            final String description = interaction.getDescription();
+
+                                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "MORE INFO" ,
+                                                    new DialogInterface.OnClickListener()
+                                                    {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which)
+                                                        {
+                                                            AlertDialog alertDialog2 = new AlertDialog.Builder(SearchActivity.this).create();
+
+                                                            TextView dialogTitle2 = new TextView(getApplicationContext());
+                                                            dialogTitle2.setText("Interaction Description");
+                                                            dialogTitle2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                                                            dialogTitle2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                                            alertDialog2.setCustomTitle(dialogTitle2);
+
+                                                            alertDialog2.setMessage(description);
+
+                                                            alertDialog2.setButton(AlertDialog.BUTTON_NEUTRAL, "OK" ,
+                                                                    new DialogInterface.OnClickListener()
+                                                                    {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which)
+                                                                        {
+                                                                            dialog.dismiss();
+                                                                            alertDialog.show();
+                                                                        }
+                                                                    });
+
+                                                            alertDialog2.show();
+                                                            TextView dialogTextView2 = (TextView)alertDialog2.findViewById(android.R.id.message);
+                                                            dialogTextView2.setTextSize(20);
+                                                        }
+                                                    });
+
+                                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES" ,
+                                                    new DialogInterface.OnClickListener()
+                                                    {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which)
+                                                        {
+                                                            up.addDrug(ud); // Add selected drug to user medications list
+                                                            // Add interaction to database
+                                                            di.addInteraction(interaction);
+                                                            dialog.dismiss();
+                                                            // Go to meds list
+                                                            finish();
+                                                            Intent intent = new Intent(SearchActivity.this, MedicationsActivity.class);
+                                                            startActivity(intent);
+                                                            Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+
+                                            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL" ,
+                                                    new DialogInterface.OnClickListener()
+                                                    {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which)
+                                                        {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                            alertDialog.show();
+
+                                            // Increase text size on first dialog
+                                            TextView dialogTextView1 = (TextView)alertDialog.findViewById(android.R.id.message);
+                                            dialogTextView1.setTextSize(22);
+                                            TextView dialogYesButton1 = (TextView)alertDialog.findViewById(android.R.id.button1);
+                                            dialogYesButton1.setTextSize(20);
+                                            TextView dialogMoreInfoButton1 = (TextView)alertDialog.findViewById(android.R.id.button2);
+                                            dialogMoreInfoButton1.setTextSize(20);
+                                            TextView dialogCancelButton1 = (TextView)alertDialog.findViewById(android.R.id.button3);
+                                            dialogCancelButton1.setTextSize(20);
+                                        }
+                                    }
+
+                                    // No interactions were found
+                                    if (interactionFound == false)
+                                    {
+                                        up.addDrug(ud); // Add selected drug to user medications list
+                                        // Go to meds list
+                                        finish();
+                                        Intent intent = new Intent(SearchActivity.this, MedicationsActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
+                                    }
                                 }
-
-                                up.addDrug(ud); // Add selected drug to user medications list
-
-                                // Go to meds list
-                                finish();
-                                Intent intent = new Intent(SearchActivity.this, MedicationsActivity.class);
-                                startActivity(intent);
+                                else  // User meds list is empty
+                                {
+                                    up.addDrug(ud); // Add selected drug to user medications list
+                                    // Go to meds list
+                                    finish();
+                                    Intent intent = new Intent(SearchActivity.this, MedicationsActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
+                                }
                             }
                             else // Already in user medications list
                             {
-                                message = "This medication is already saved.";
+                                Toast.makeText(SearchActivity.this, "This medication is already saved.", Toast.LENGTH_LONG).show();
                             }
-
-                            Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
                         }
-
                     }
                 });
 
