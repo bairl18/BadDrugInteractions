@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,18 +16,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
-
-import static com.example.linnea.baddruginteractions2.R.color.colorPrimary;
-import static com.example.linnea.baddruginteractions2.R.color.colorPrimaryDark;
 import static java.sql.Types.NULL;
 
 public class SearchActivity extends AppCompatActivity {
@@ -42,14 +34,12 @@ public class SearchActivity extends AppCompatActivity {
 
     Boolean interactionFound = false;
 
-
     private LinearLayout linearLayout;
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
     private ViewGroup container;
 
     List<String> drugList;
-
     ListView fdaMedsList;
 
     @Override
@@ -87,7 +77,6 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         registerClickCallback();
-
 
         searchField.setOnClickListener(new View.OnClickListener()
         {
@@ -150,9 +139,9 @@ public class SearchActivity extends AppCompatActivity {
                 layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 container = (ViewGroup) layoutInflater.inflate(R.layout.activity_add_pop_up, null);
 
-                popupWindow = new PopupWindow(container, 550, 500, true);
+                popupWindow = new PopupWindow(container, 550, 520, true);
                 popupWindow.setAnimationStyle(-1);
-                popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x+200, y);
+                popupWindow.showAtLocation(linearLayout, Gravity.NO_GRAVITY, x+180, y);
 
                 // Add selected medication to medications list
                 ImageButton add = (ImageButton)container.findViewById(R.id.add);
@@ -181,7 +170,6 @@ public class SearchActivity extends AppCompatActivity {
                                 {
                                     for (UserDrug d : savedDrugs)
                                     {
-
                                         // ud is drug selected by user, d is a drug already in the user meds list
                                         final Interaction interaction = di.lookupInteractionForDrugs(ud, d);
 
@@ -323,8 +311,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
                 TextView textView = (TextView) viewClicked;
-                //String message = "You clicked " + textView.getText().toString();
-                //Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
