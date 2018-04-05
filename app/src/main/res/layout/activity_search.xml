@@ -68,7 +68,7 @@
             android:layout_margin="30dp"
             android:background="@layout/rounded_corners_list_view"
             android:backgroundTint="@color/colorPrimary"
-            android:divider="#f9f9f9"
+            android:divider="?android:attr/colorBackground"
             android:dividerHeight="7dp"
             android:listSelector="@android:color/darker_gray"
             android:textAlignment="center">

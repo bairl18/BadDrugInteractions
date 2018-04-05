@@ -20,45 +20,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:allowUndo="true"
             android:checked="false"
-            android:text="Once"
-            android:textColor="@color/colorPrimaryDark" />
+            android:text="  Once"
+            android:textColor="?android:attr/colorForeground" />
 
         <RadioButton
             android:id="@+id/daily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:text="Daily"
-            android:textColor="@color/colorPrimaryDark" />
+            android:text="  Daily"
+            android:textColor="?android:attr/colorForeground" />
 
         <RadioButton
             android:id="@+id/weekly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:text="Weekly"
-            android:textColor="@color/colorPrimaryDark" />
+            android:text="  Weekly"
+            android:textColor="?android:attr/colorForeground" />
 
         <RadioButton
             android:id="@+id/monthly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="10dp"
             android:allowUndo="true"
-            android:text="Monthly"
-            android:textColor="@color/colorPrimaryDark" />
+            android:text="  Monthly"
+            android:textColor="?android:attr/colorForeground" />
 
     </RadioGroup>
 
