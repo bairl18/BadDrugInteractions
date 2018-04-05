@@ -14,6 +14,7 @@ import android.widget.*;
 import android.util.Log;
 import java.util.List;
 
+import static com.example.linnea.baddruginteractions2.R.color.colorPrimary;
 import static com.example.linnea.baddruginteractions2.R.drawable.dark_logo;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -176,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
                 }
                 title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+
+                if(ThemeUtils.getTheme().equals("dark"))
+                {
+                    title.setTextColor(getResources().getColor(colorPrimary));
+                }
                 title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 builder.setCustomTitle(title);
 
