@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,36 @@ public class SearchActivity extends AppCompatActivity {
 
         populateMedsList("a-");
 
+        searchField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            String searchText = searchField.getText().toString();
+                            if (searchText.isEmpty())
+                            {
+                                //toast that says enter a valid medication
+                                String message = "Please enter a valid medication.";
+                                Toast.makeText(SearchActivity.this, message, Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                populateMedsList(searchText);
+                                selected = -1;
+                            }
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
         search.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -62,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
             {
                 String searchText = searchField.getText().toString();
 
-                if (searchText.equals(NULL))
+                if (searchText.isEmpty())
                 {
                     //toast that says enter a valid medication
                     String message = "Please enter a valid medication.";
