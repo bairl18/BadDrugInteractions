@@ -10,6 +10,7 @@
         <item name="android:timePickerStyle">@style/MyTimePicker</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
+
     </style>
 
     <style name="MyDatePicker" parent="android:Widget.Material.DatePicker">
@@ -36,6 +37,51 @@
         <item name="android:textSize">22sp</item>
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
         <item name="android:timePickerStyle">@style/MyTimePicker</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="DarkThemeSmall" parent="Theme.AppCompat.NoActionBar" >
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="DarkThemeBig" parent="Theme.AppCompat.NoActionBar" >
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="bigFontTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+
+    </style>
+
+    <style name="smallFontTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 

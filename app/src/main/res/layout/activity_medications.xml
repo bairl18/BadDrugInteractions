@@ -24,7 +24,7 @@
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textColorLink="#43bc9d"
-            android:textSize="30sp" />
+            android:textSize="@dimen/medText" />
 
     </LinearLayout>
 

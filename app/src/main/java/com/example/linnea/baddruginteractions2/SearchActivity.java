@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.List;
 
+import static android.R.attr.textSize;
 import static android.R.color.white;
 import static java.sql.Types.NULL;
 
@@ -58,7 +59,7 @@ public class SearchActivity extends AppCompatActivity {
 
         searchField = (EditText)findViewById(R.id.searchField);
 
-        if ((ThemeUtils.getTheme()).equals("dark"))
+        if (ThemeUtils.sTheme == 1 || ThemeUtils.sTheme == 5 || ThemeUtils.sTheme == 6 || ThemeUtils.sTheme == 7 )
         {
             searchField.setTextColor(getResources().getColor(white));
         }

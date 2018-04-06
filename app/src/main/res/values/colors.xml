@@ -6,4 +6,5 @@
     <color name="colorPrimary2">#212121</color>
     <color name="colorPrimaryDark2">#303030</color>
     <color name="colorRoundedCorners">#606060</color>
+    <color name="colorEditText">#898989</color>
 </resources>

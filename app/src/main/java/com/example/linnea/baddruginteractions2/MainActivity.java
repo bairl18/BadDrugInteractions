@@ -1,10 +1,15 @@
 package com.example.linnea.baddruginteractions2;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +19,13 @@ import android.widget.*;
 import android.util.Log;
 import java.util.List;
 
+import static android.Manifest.permission.CALL_PHONE;
+import static android.R.attr.textSize;
+import static android.content.DialogInterface.BUTTON_NEUTRAL;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.example.linnea.baddruginteractions2.R.color.colorPrimary;
 import static com.example.linnea.baddruginteractions2.R.drawable.dark_logo;
+import static com.example.linnea.baddruginteractions2.SettingsActivity.physNumber;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -32,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageButton reminders;
 
     public ImageView logo;
+    private static final int REQUEST_PHONE_CALL = 1;
 
 
     @Override
@@ -72,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             interactions.reset(); // reset interactions too
         }
 
-        if ((ThemeUtils.getTheme()).equals("dark"))
+        if (ThemeUtils.sTheme == 1 || ThemeUtils.sTheme == 5 || ThemeUtils.sTheme == 6 || ThemeUtils.sTheme == 7 )
         {
             logo.setBackgroundResource(dark_logo);
         }
@@ -119,9 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intStrings[i] = intString;
                 }
 
-                //ListView intsListView;
-                //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, intsListView, intStrings);
-
                 boolean empty = true;
                 for (int i=0; i< intStrings.length; i++) {
                     if (intStrings[i] != null) {
@@ -147,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String description = i.getDescription();
                             String severity = i.getSeverity();
 
-                            AlertDialog alertDialog2 = new AlertDialog.Builder(MainActivity.this).create();
+                            final AlertDialog alertDialog2 = new AlertDialog.Builder(MainActivity.this).create();
 
                             TextView dialogTitle2 = new TextView(getApplicationContext());
                             dialogTitle2.setText(severity);
@@ -159,26 +167,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             alertDialog2.setMessage(description);
 
-                            alertDialog2.setButton(AlertDialog.BUTTON_NEUTRAL, "OK" ,
+                            alertDialog2.setButton(BUTTON_NEUTRAL, "OK" ,
                                     new DialogInterface.OnClickListener()
                                     {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which)
                                         {
                                             dialog.dismiss();
-                                            //alertDialog.show();
+                                            alertDialog2.show();
+                                        }
+                                    });
+
+                            alertDialog2.setButton(BUTTON_POSITIVE, "CONTACT PHYSICIAN" ,
+                                    new DialogInterface.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which)
+                                        {
+
+                                            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE)
+                                                    != PackageManager.PERMISSION_GRANTED) {
+                                                // Permission is not granted
+                                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+
+                                            }
+                                            else
+                                            {
+                                                if (!physNumber.isEmpty())
+                                                {
+                                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+physNumber));
+                                                    startActivity(intent);
+                                                }
+                                                else
+                                                {
+                                                    Toast.makeText(MainActivity.this, "Add a phone number on the Settings page", Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
                                         }
                                     });
 
                             alertDialog2.show();
                             TextView dialogTextView2 = (TextView)alertDialog2.findViewById(android.R.id.message);
                             dialogTextView2.setTextSize(20);
+                            TextView buttonTextView = (TextView)alertDialog2.findViewById(android.R.id.button1);
+                            buttonTextView.setTextSize(18);
+                            TextView buttonTextView2 = (TextView)alertDialog2.findViewById(android.R.id.button3);
+                            buttonTextView2.setTextSize(18);
+
                         }
                     });
                 }
                 title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 
-                if(ThemeUtils.getTheme().equals("dark"))
+                if(ThemeUtils.sTheme == 1 || ThemeUtils.sTheme == 5 || ThemeUtils.sTheme == 6 || ThemeUtils.sTheme == 7 )
                 {
                     title.setTextColor(getResources().getColor(colorPrimary));
                 }

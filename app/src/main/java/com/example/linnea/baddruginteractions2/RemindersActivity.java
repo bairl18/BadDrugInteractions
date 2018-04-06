@@ -90,7 +90,7 @@ public class RemindersActivity extends AppCompatActivity{
 
         activityTitle = (TextView)findViewById(R.id.RemsTitle);
 
-        if ((ThemeUtils.getTheme()).equals("dark"))
+        if (ThemeUtils.sTheme == 1 || ThemeUtils.sTheme == 5 || ThemeUtils.sTheme == 6 || ThemeUtils.sTheme == 7 )
         {
             activityTitle.setTextColor(getResources().getColor(white));
         }

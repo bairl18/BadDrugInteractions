@@ -36,7 +36,7 @@
             android:backgroundTint="@color/colorPrimaryDark"
             android:text="Medication"
             android:textAlignment="center"
-            android:textColor="#898989"
+            android:textColor="@color/colorEditText"
             android:textCursorDrawable="@null"
             android:textSize="30sp" />
 
@@ -48,8 +48,10 @@
             android:layout_marginTop="40dp"
             android:layout_toRightOf="@+id/searchField"
             android:layout_weight="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:text="search"
-            android:textSize="20sp"
+            android:textSize="?android:attr/textSize"
             app:layout_column="1"
             app:layout_row="0" />
 
