@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.text.DecimalFormat;
 
+import static android.R.color.white;
 import static com.example.linnea.baddruginteractions2.R.layout.frequency_picker;
 import static com.example.linnea.baddruginteractions2.R.layout.reminder_attrs_list;
 
@@ -59,11 +60,14 @@ public class RemindersActivity extends AppCompatActivity{
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
     private ViewGroup container;
+    TextView activityTitle;
 
     // Arraylist of pending intents that correspond to each reminder
     PendingIntent intentArray[];
     AlarmManager alarmManager;
     Intent myIntent;
+
+    Boolean saved;
 
     private View.OnClickListener addOnClickListener = new View.OnClickListener() {
         @Override
@@ -76,12 +80,20 @@ public class RemindersActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtils.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_reminders);
 
         intentArray = new PendingIntent[200];
 
         linearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
         final ListView remsListView = (ListView) findViewById(R.id.remsList);
+
+        activityTitle = (TextView)findViewById(R.id.RemsTitle);
+
+        if ((ThemeUtils.getTheme()).equals("dark"))
+        {
+            activityTitle.setTextColor(getResources().getColor(white));
+        }
 
         populateRemsList();
         registerClickCallback();
@@ -94,6 +106,7 @@ public class RemindersActivity extends AppCompatActivity{
     // User may edit and save reminder attributes
     private void editReminder(String initDrug, int initDay, int initMonth, int initYear, int initHour, String initMin, String initAmPm, String initFreq)
     {
+        saved = false;
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(RemindersActivity.this);
 
         // Inflate reminder attrs dialog layout so we can access its buttons
@@ -120,15 +133,15 @@ public class RemindersActivity extends AppCompatActivity{
             month = initMonth;
             year = initYear;
         }
+        if(!(initAmPm.equals("")))
+        {
+            amPm = initAmPm;
+        }
         if (initHour != 0 && initMin != null)
         {
             timeButton.setText(initHour + ":" + initMin + " " + amPm);
             hour = initHour;
             minuteStr = initMin;
-        }
-        if(!initAmPm.equals(""))
-        {
-            amPm = initAmPm;
         }
         if (!initFreq.equals(""))
         {
@@ -377,6 +390,7 @@ public class RemindersActivity extends AppCompatActivity{
                 {
                     addReminder(drug, day, month, year, hour, minute, amPm, frequency);
                     setNotification();
+                    saved = true;
                     remAttrsDialog.dismiss();
                     populateRemsList();
                 }
@@ -574,16 +588,10 @@ public class RemindersActivity extends AppCompatActivity{
                                 String thisMin = remList.get(selected).getTimeMinutes();
                                 String thisFreq = remList.get(selected).getFrequency();
 
-                                // Number of reminders
-                                //List<Reminder> remList2 = ur.asList();
-                                int preSize = ur.countRows();
-
                                 // Create a new edited reminder
                                 editReminder(thisDrug, thisDay, thisMonth, thisYear, thisHour, thisMin, thisAmPm, thisFreq);
 
-                                //List<Reminder> remList3 = ur.asList();
-                                int postSize = ur.countRows();
-                                if(postSize > preSize) // Check if a reminder was actually added
+                                if(saved == true) // Check if a reminder was actually added
                                 {
                                     // Delete the reminder
                                     remsList.setSelector(android.R.color.transparent);
@@ -606,10 +614,11 @@ public class RemindersActivity extends AppCompatActivity{
                                         intentArray[remList.get(selected).getId()] = null;
                                     }
 
+                                    populateRemsList();
+
                                 }
 
                                 popupWindow.dismiss();
-                                populateRemsList();
                             }
                         }
                     });

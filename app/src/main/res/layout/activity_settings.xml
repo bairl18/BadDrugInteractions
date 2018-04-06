@@ -1,112 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.linnea.baddruginteractions2.SettingsActivity">
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context="com.example.linnea.baddruginteractions2.MedicationsActivity"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
 
-    <android.widget.LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="344dp"
-        android:layout_height="551dp"
-        android:orientation="vertical"
-        android:weightSum="10"
-        tools:context="com.example.linnea.baddruginteractions2.MedicationsActivity"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
+        <TextView
+            android:id="@+id/sets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0">
+            android:layout_marginTop="30dp"
+            android:text="Settings"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="#43bc9d"
+            android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/sets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Settings"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorLink="#43bc9d"
-                android:textSize="30sp" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"
+        app:srcCompat="?android:attr/dividerHorizontal" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/fontSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:text="Font Size"
+            android:textAlignment="textEnd" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:text="Dark Theme"
-                android:textAlignment="textEnd"
-                android:textSize="20sp" />
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:thumb="@android:drawable/gallery_thumb"
-                android:track="@android:drawable/button_onoff_indicator_off" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="2"
+            android:backgroundTint="@color/colorAccent" />
 
-            <TextView
-                android:id="@+id/textVIew"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="Clear all medications and reminders"
-                android:textAlignment="textEnd"
-                android:textSize="20sp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/reset"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/searchField"
-                android:layout_weight="2"
-                android:text="reset"
-                android:textSize="24sp"
-                app:layout_column="1"
-                app:layout_row="0" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"
+        app:srcCompat="?android:attr/listDivider" />
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/darkTheme"
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.75"
+            android:text="Dark Theme"
+            android:textAlignment="textEnd" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1.19"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:switchMinWidth="70dp"
+            android:textAlignment="viewStart" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"
+        app:srcCompat="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/clearText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Clear all medications and reminders"
+            android:textAlignment="textEnd" />
+
+        <Button
+            android:id="@+id/reset"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/searchField"
+            android:layout_weight="2"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="clear"
+            android:textSize="24sp"
+            app:layout_column="1" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"
+        app:srcCompat="?android:attr/listDivider" />
 
 
-    </android.widget.LinearLayout>
+</android.widget.LinearLayout>
 
-</android.support.constraint.ConstraintLayout>

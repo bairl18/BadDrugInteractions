@@ -14,6 +14,8 @@ import android.widget.*;
 import android.util.Log;
 import java.util.List;
 
+import static com.example.linnea.baddruginteractions2.R.drawable.dark_logo;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     static Boolean programOpens = false;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtils.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_main);
 
         openProgramTest();
@@ -66,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (resetProfile) {
             profile.reset();
             interactions.reset(); // reset interactions too
+        }
+
+        if ((ThemeUtils.getTheme()).equals("dark"))
+        {
+            logo.setBackgroundResource(dark_logo);
         }
 
     }

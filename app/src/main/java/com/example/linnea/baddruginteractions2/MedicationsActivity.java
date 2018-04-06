@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.List;
 import android.util.Log;
 
+import static android.R.color.white;
 import static android.R.id.list;
 import static com.example.linnea.baddruginteractions2.R.color.colorPrimaryDark;
 
@@ -36,6 +37,7 @@ public class MedicationsActivity extends AppCompatActivity
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
     private ViewGroup container;
+    TextView activityTitle;
 
     List<UserDrug> drugList;
 
@@ -43,10 +45,18 @@ public class MedicationsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        ThemeUtils.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_medications);
 
         final ListView userMedsList = (ListView) findViewById(R.id.userMedsList);
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+
+        activityTitle = (TextView)findViewById(R.id.myMeds);
+
+        if ((ThemeUtils.getTheme()).equals("dark"))
+        {
+            activityTitle.setTextColor(getResources().getColor(white));
+        }
 
         populateMedsList();
         registerClickCallback();
