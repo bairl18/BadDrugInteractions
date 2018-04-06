@@ -83,7 +83,7 @@ public class RemindersActivity extends AppCompatActivity{
         ThemeUtils.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_reminders);
 
-        intentArray = new PendingIntent[20];
+        intentArray = new PendingIntent[200];
 
         linearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
         final ListView remsListView = (ListView) findViewById(R.id.remsList);
